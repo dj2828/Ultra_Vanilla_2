@@ -30,7 +30,7 @@ try:
 
     def tx():
         print('\033[92mScaricamento texturepack\nAttendi...\033[0m')
-        response = requests.get('https://github.com/dj2828/sito/releases/download/mod_vanilla_2/Ultra-vanilla-2.zip')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/refs/heads/master/download%20mod/down/Ultra-vanilla-2.zip')
         with open('Ultra-vanilla-2.zip', 'wb') as f:
             f.write(response.content)
         
@@ -48,7 +48,7 @@ try:
 
     def cose(a):
     # scarica cose
-        response = requests.get('https://github.com/dj2828/sito/releases/download/mod_vanilla_2/cose.zip')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/refs/heads/master/download%20mod/down/cose.zip')
         with open('cose.zip', 'wb') as f:
             f.write(response.content)
         print('\nScaricato cose.zip')
@@ -116,7 +116,7 @@ try:
         print("Attendi...\033[0m\n")
 
         down_error = down.sc(MINECRAFT+'mods/')
-        down.scarica_file('https://github.com/dj2828/sito/releases/download/mod_vanilla_2/ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        down.scarica_file('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/refs/heads/master/download%20mod/down/ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error:
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
@@ -165,7 +165,7 @@ try:
     cos = input('')
     os.system('cls')
     if cos == 's':
-        response = requests.get('https://github.com/dj2828/sito/releases/download/mod_vanilla_2/modlist.json')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/refs/heads/master/download%20mod/down/modlist.json')
         with open('modlist.json', 'wb') as f:
             f.write(response.content)
         print(f'Scaricato modlist.json')
@@ -177,7 +177,7 @@ try:
             print("\033[91mLa cartella mods non esiste, quindi scegli 'scaricare'. premi INVIO\033[0m")
             input('')
             sys.exit()
-        response = requests.get('https://github.com/dj2828/sito/releases/download/mod_vanilla_2/modlist.json')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/refs/heads/master/download%20mod/down/modlist.json')
         with open('modlist.json', 'wb') as f:
             f.write(response.content)
         print(f'Scaricato modlist.json')
