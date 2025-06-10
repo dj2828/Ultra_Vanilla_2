@@ -101,7 +101,7 @@ def upt_down():
             continue
         else:
             if not download_url:
-            continue
+                continue
             if not download_url.startswith("https://"):
                 down_error.append(download_url)
                 continue

@@ -8,29 +8,34 @@ import filecmp
 
 global user
 user = os.getlogin()
-global agg
+global agg, sc
 MINECRAFT = 'C:/Users/'+user+'/AppData/Roaming/ATLauncher/instances/Ultravanilla2/'
 agg=False
+sc=False
 
 try:
     def fine():
         os.system('cls')
         if agg:
+            shutil.rmtree('__pycache__/')
             try:
                 os.remove(MINECRAFT+'modlist.json')
-                shutil.rmtree('__pycache__/')
             except:
                 pass
-
             shutil.move('modlist.json', MINECRAFT+'modlist.json')
 
+            print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m')
+            input('')
+        elif sc:
+            shutil.rmtree('__pycache__/')
+            shutil.move('modlist.json', MINECRAFT+'modlist.json')
             print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m')
             input('')
         sys.exit()
 
     def tx():
         print('\033[92mScaricamento texturepack\nAttendi...\033[0m')
-        response = requests.get('https://github.com/dj2828/Ultra_Vanilla_2/blob/master/download%20mod/down/Ultra-vanilla-2.zip')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/Ultra-vanilla-2.zip')
         with open('Ultra-vanilla-2.zip', 'wb') as f:
             f.write(response.content)
         
@@ -48,7 +53,7 @@ try:
 
     def cose(a):
     # scarica cose
-        response = requests.get('https://github.com/dj2828/Ultra_Vanilla_2/blob/master/download%20mod/down/cose.zip')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/cose.zip')
         with open('cose.zip', 'wb') as f:
             f.write(response.content)
         print('\nScaricato cose.zip')
@@ -105,7 +110,7 @@ try:
         
         os.remove('cose.zip')
         shutil.rmtree('cosse/')
-        if agg:
+        if agg or sc:
             tx()
         else:
             fine()
@@ -116,7 +121,7 @@ try:
         print("Attendi...\033[0m\n")
 
         down_error = down.sc(MINECRAFT+'mods/')
-        down.scarica_file('https://github.com/dj2828/Ultra_Vanilla_2/blob/master/download%20mod/down/ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        down.scarica_file('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error:
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
@@ -161,15 +166,15 @@ try:
 
     print(user)
     print("Benvenuto nell' installer delle mod")
-    print("Se devi scaricare le mod scrivi 's'\nSe devi aggiornare scrivi 'a'\nSe devi aggiornare la texture pack scrivi 'tx'\nSe devi aggiornare altre cose scrivi 'cose'")
+    print("Se devi scaricare le mod scrivi 's'\nSe devi aggiornare/riparare scrivi 'a'\nSe devi aggiornare la texture pack scrivi 'tx'\nSe devi aggiornare altre cose scrivi 'cose'")
     cos = input('')
     os.system('cls')
     if cos == 's':
-        response = requests.get('https://github.com/dj2828/Ultra_Vanilla_2/blob/master/download%20mod/down/modlist.json')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/modlist.json')
         with open('modlist.json', 'wb') as f:
             f.write(response.content)
         print(f'Scaricato modlist.json')
-        agg = True
+        sc = True
         scarica_mod()
 
     elif cos == 'a':
@@ -177,14 +182,14 @@ try:
             print("\033[91mLa cartella mods non esiste, quindi scegli 'scaricare'. premi INVIO\033[0m")
             input('')
             sys.exit()
-        response = requests.get('https://github.com/dj2828/Ultra_Vanilla_2/blob/master/download%20mod/down/modlist.json')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/modlist.json')
         with open('modlist.json', 'wb') as f:
             f.write(response.content)
         print(f'Scaricato modlist.json')
         agg = True
         if filecmp.cmp("modlist.json", MINECRAFT+'modlist.json', shallow=False):
             os.remove('modlist.json')
-            print("\033[91mLe mod sono già aggiornate\033[0m")
+            print("\033[92mLe mod sono già aggiornate\033[0m")
             cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
             if cos == 's':
                 cose(True)
