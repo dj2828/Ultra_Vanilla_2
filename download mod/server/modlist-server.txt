@@ -10,3 +10,4 @@ LuckPerms-Forge-5.4.102;https://mediafilez.forgecdn.net/files/4738/950/LuckPerms
 -polytone-1.20-3.3.8
 -Modern-Fullbright-4.0
 -BetterClouds-1.1
+-e4mc_minecraft-forge-5.3.1
