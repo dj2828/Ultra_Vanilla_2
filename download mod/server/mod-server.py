@@ -30,9 +30,10 @@ with open('modlist-server.txt', 'r') as file:
         
         if line[0] == '-':
             line = line[1:]
-            if os.path.exists('./mods/'+nome):
-                os.remove('./mods/'+nome)
-                print(f'Cancellato {nome}')
+            line+='.jar'
+            if os.path.exists('./mods/'+line):
+                os.remove('./mods/'+line)
+                print(f'Cancellato {line}')
         else:
             nome, modlink = line.split(';')
             response = requests.get(modlink)
