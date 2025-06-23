@@ -1,0 +1,26 @@
+{
+  "__comment": [
+    "This is config section for CreateCustomCommand mod",
+    "The key is the alias for each command, change it to match your desire",
+    "Second line is permission for player who type this comamnd",
+    "Third line is notify, it's command feedback",
+    "You can add more commands in each key section, as long as it start with 'commandx', the x is the number",
+    "This is Update v2.0, you can add cooldown and custom permission (use LuckPerms) for each command"
+  ],
+  "Reggio_Puglia": {
+    "permission": "0",
+    "notify": "no",
+    "command1": "tp @p -290 133 -776.999 90 15"
+  },
+  "testcooldownpermission": {
+    "permission": "0",
+    "notifystring": "Test cooldown and permission",
+    "notify": "yes",
+    "cooldownintick": "20",
+    "custompermission0": "abc",
+    "custompermission1": "cba",
+    "custompermission2": "bac",
+    "command1": "say just say command",
+    "command2": "say just say command2"
+  }
+}
