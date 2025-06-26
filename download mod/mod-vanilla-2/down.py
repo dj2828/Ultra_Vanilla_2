@@ -26,6 +26,14 @@ def ottieni_nome_file(project_id, file_id):
     if resp.status_code == 200:
         return resp.json()["data"]["fileName"]
     return f"{file_id}.jar"
+def ottieni_url_progetto(project_id, file_id):
+    url = f"https://api.curseforge.com/v1/mods/{project_id}"
+    resp = requests.get(url, headers=HEADERS)
+    if resp.status_code == 200:
+        no = resp.json()["data"]["name"]
+        no = no.replace(" ", "-")
+        return f"https://www.curseforge.com/minecraft/mc-mods/{no.replace(":", "")}/download/{file_id}"
+    return file_id
 
 def scarica_file(url, percorso_file):
     resp = requests.get(url)
@@ -37,6 +45,7 @@ def sc(MODS_DIR):
         os.makedirs(MODS_DIR)
 
     down_error = []
+    durl = []
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -48,19 +57,17 @@ def sc(MODS_DIR):
         file_id = mod["fileID"]
 
         nome_file = ottieni_nome_file(project_id, file_id)
-        if os.path.exists('./mods/'+nome_file):
-            continue
-        
         download_url = ottieni_link_download(project_id, file_id)
         if not download_url:
             down_error.append(nome_file)
+            durl.append(ottieni_url_progetto(project_id, file_id))
             print(f"❌ Link di download non trovato per {nome_file}")
             continue
 
-        destinazione = os.path.join('./mods/', nome_file)
+        destinazione = os.path.join(MODS_DIR, nome_file)
         scarica_file(download_url, destinazione)
         print(f"✅ Scaricato {nome_file}")
-    return down_error if down_error else None
+    return down_error, code
 
 def rip_sposta(MODS_DIR):
     os.makedirs('./mods/')
@@ -86,6 +93,7 @@ def rip_sposta(MODS_DIR):
 
 def rip_down():
     down_error = []
+    durl = []
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -103,13 +111,14 @@ def rip_down():
         download_url = ottieni_link_download(project_id, file_id)
         if not download_url:
             down_error.append(nome_file)
+            durl.append(ottieni_url_progetto(project_id, file_id))
             print(f"❌ Link di download non trovato per {nome_file}")
             continue
 
         destinazione = os.path.join('./mods/', nome_file)
         scarica_file(download_url, destinazione)
         print(f"✅ Scaricato {nome_file}")
-    return down_error if down_error else None
+    return down_error, durl
 
 def cancella_mod(list, MODS_DIR):
     for mod in list:

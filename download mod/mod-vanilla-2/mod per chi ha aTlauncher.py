@@ -6,6 +6,7 @@ import zipfile
 import down
 import filecmp
 import json
+import webbrowser
 
 global USER
 USER = os.getlogin()
@@ -122,7 +123,7 @@ def scarica_mod():
     input('')
     print("Attendi...\033[0m\n")
 
-    down_error = down.sc(MINECRAFT+'mods/')
+    down_error, code = down.sc(MINECRAFT+'mods/')
     down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
     if down_error:
@@ -130,8 +131,15 @@ def scarica_mod():
         print("Le mod che non sono state scaricate sono:")
         for error in down_error:
             print(error)
-        input('\n\033[91mPremere invio per continuare\033[0m')
-    
+        input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+        for i in range(len(durl)):
+            print(f"{down_error[i]}: {durl[i]}\n")
+            webbrowser.open(durl[i])
+        input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+
+        for i in down_error:
+            shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+
     print('Mod scaricate')
 
     cose(False)
@@ -181,8 +189,7 @@ def rip_mod():
 
     # scarica quelle nuove
 
-    down_error = []
-    down_error = down.rip_down()
+    down_error, durl = down.rip_down()
 
     shutil.move('./mods/', MINECRAFT+'mods/')
 
@@ -191,7 +198,14 @@ def rip_mod():
         print("Le mod che non sono state scaricate sono:")
         for error in down_error:
             print(error)
-        input('\n\033[91mPremere invio per continuare\033[0m')
+        input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+        for i in range(len(durl)):
+            print(f"{down_error[i]}: {durl[i]}\n")
+            webbrowser.open(durl[i])
+        input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+
+        for i in down_error:
+            shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
 
     print('Mod riparate')
 
