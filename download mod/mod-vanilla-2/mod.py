@@ -242,7 +242,8 @@ try:
         
 except SystemExit:
     raise
-except:
+except Exception as e:
     os.system('cls')
     print("\033[91mERRORE\033[0m")
-    input('\033[91mAPRI "se non worka.bat". se non va neanche quello chiedi a dj \033[0m')
+    print('\033[91mAPRI "se non worka.bat". se non va neanche quello chiedi a dj \033[0m')
+    input(e)
