@@ -5,36 +5,30 @@ import requests
 import zipfile
 import down
 import filecmp
+import json
+import webbrowser
 
 global USER
 USER = os.getlogin()
-global agg, sc
+global mod
 MINECRAFT = 'C:/users/'+USER+'/AppData/Roaming/.minecraft/'
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/'
-agg=False
-sc=False
+mod=False
 
 try:
     def fine():
         os.system('cls')
-        if agg:
-            shutil.rmtree('__pycache__/')
+        shutil.rmtree('__pycache__/')
+        if mod:
             try:
+                os.remove('forge.jar')
+                os.remove('forge-1.20.1-47.4.0-installer.jar.log')
                 os.remove(MINECRAFT+'mods/modlist.json')
+                os.remove('differenze.json')
             except:
                 pass
             shutil.move('modlist.json', MINECRAFT+'mods/modlist.json')
 
-            print('\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.0\033[0m')
-            input('')
-        elif sc:
-            shutil.rmtree('__pycache__/')
-            shutil.move('modlist.json', MINECRAFT+'mods/modlist.json')
-            try:
-                os.remove('forge.jar')
-                os.remove('forge-1.20.1-47.4.0-installer.jar.log')
-            except:
-                pass
             print('\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.0\033[0m')
             input('')
         sys.exit()
@@ -123,7 +117,7 @@ try:
         
         os.remove('cose.zip')
         shutil.rmtree('cosse/')
-        if agg or sc:
+        if mod:
             tx()
         else:
             fine()
@@ -137,7 +131,7 @@ try:
             f.write(response.content)
         print('Scaricato forge.jar')
         
-        down_error = down.sc(MINECRAFT+'mods/')
+        down_error, durl = down.sc(MINECRAFT+'mods/')
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error:
@@ -145,7 +139,14 @@ try:
             print("Le mod che non sono state scaricate sono:")
             for error in down_error:
                 print(error)
-            input('\n\033[91mPremere invio per continuare\033[0m')
+            input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+            for i in range(len(durl)):
+                print(f"{down_error[i]}: {durl[i]}\n")
+                webbrowser.open(durl[i])
+            input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+
+            for i in down_error:
+                shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
 
         print("\033[92mPremere INVIO\033[0m")
         input('')
@@ -166,16 +167,26 @@ try:
         print("\n\033[92mOra si aggiorneranno le mod. premere INVIO")
         input('')
         print("Attendi...\033[0m\n")
-        down.upt_sposta(MINECRAFT+'mods/')
-        shutil.move(MINECRAFT+'mods/mcef-libraries/', './mods/mcef-libraries/')
 
-        shutil.rmtree(MINECRAFT+'mods/')
+        down.confronta_modlist(MINECRAFT+'mods/modlist.json', 'modlist.json')
+
+        with open('differenze.json', "r", encoding="utf-8") as f:
+            manifest = json.load(f)
+            cancellare = manifest.get("cancellare", [])
+            aggiungere = manifest.get("aggiungere", [])
+
+        if cancellare:
+            down.cancella_mod(cancellare, MINECRAFT+'mods/')
+        
+        if os.path.exists(MINECRAFT+'mods/mcef-libraries/'): shutil.move(MINECRAFT+'mods/mcef-libraries/', './mcef-libraries/')
+        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         # scarica quelle nuove
-
-        down_error = down.upt_down()
-
-        shutil.move('./mods/', MINECRAFT+'mods/')
+        if aggiungere:
+            down_error = down.aggiungi_mod(aggiungere, MINECRAFT+'mods/')
+        
+        if os.path.exists('./mcef-libraries/'): shutil.move('./mcef-libraries/', MINECRAFT+'mods/mcef-libraries/')
+        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error:
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
@@ -192,9 +203,42 @@ try:
         elif cos == 'n':
             tx()
 
+    def rip_mod():
+        print("\n\033[92mOra si ripareranno le mod. premere INVIO")
+        input('')
+        print("Attendi...\033[0m\n")
+        down.rip_sposta(MINECRAFT+'mods/')
+
+        shutil.rmtree(MINECRAFT+'mods/')
+
+        # scarica quelle nuove
+
+        if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
+        down_error, durl = down.rip_down()
+
+        shutil.move('./mods/', MINECRAFT+'mods/')
+
+        if down_error:
+            print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
+            print("Le mod che non sono state scaricate sono:")
+            for error in down_error:
+                print(error)
+            input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+            for i in range(len(durl)):
+                print(f"{down_error[i]}: {durl[i]}\n")
+                webbrowser.open(durl[i])
+            input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+
+            for i in down_error:
+                shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+
+        print('Mod riparate')
+
+        tx()
+
     print(USER)
     print("Benvenuto nell' installer delle mod")
-    print("Se devi scaricare le mod scrivi 's'\nSe devi aggiornare/riparare scrivi 'a'\nSe devi aggiornare la texture pack scrivi 'tx'\nSe devi aggiornare altre cose scrivi 'cose'")
+    print("Se devi scaricare le mod scrivi 's'\nSe devi aggiornare scrivi 'a'\nSe devi riparare le mod scrivi 'r'\nSe devi aggiornare la texture pack scrivi 'tx'\nSe devi aggiornare altre cose scrivi 'cose'")
     cos = input('')
     os.system('cls')
     if cos == 's':
@@ -211,7 +255,7 @@ try:
             input('')
         os.makedirs(MINECRAFT+'mods/')
 
-        sc = True
+        mod = True
         scarica_mod()
 
     elif cos == 'a':
@@ -224,7 +268,7 @@ try:
         with open('modlist.json', 'wb') as f:
             f.write(response.content)
         print(f'Scaricato modlist.json')
-        agg = True
+        mod = True
         if filecmp.cmp("modlist.json", MINECRAFT+'mods/modlist.json', shallow=False):
             print("\033[92mLe mod sono già aggiornate\033[0m")
             cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
@@ -234,12 +278,19 @@ try:
                 tx()
         upt_mod()
 
+    elif cos == 'r':
+        response = requests.get(GITHUB+'modlist.json')
+        with open('modlist.json', 'wb') as f:
+            f.write(response.content)
+        print(f'Scaricato modlist.json')
+        mod = True
+        rip_mod()
+
     elif cos == 'tx':
         tx()
 
     elif cos == 'cose':
         cose(True)
-        
 except SystemExit:
     raise
 except Exception as e:

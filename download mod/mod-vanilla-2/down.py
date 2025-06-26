@@ -49,7 +49,6 @@ def sc(MODS_DIR):
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
-
     files = manifest.get("files", [])
 
     for mod in files:
@@ -74,12 +73,11 @@ def rip_sposta(MODS_DIR):
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
-
     files = manifest.get("files", [])
     print(f"🔍 Trovate {len(files)} mod nella modlist.")
 
-    shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
-
+    if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
+        
     for mod in files:
         project_id = mod["projectID"]
         file_id = mod["fileID"]
@@ -138,6 +136,7 @@ def cancella_mod(list, MODS_DIR):
 
 def aggiungi_mod(list, MODS_DIR):
     for mod in list:
+        down_error = []
         project_id = mod["projectID"]
         file_id = mod["fileID"]
 
@@ -152,7 +151,7 @@ def aggiungi_mod(list, MODS_DIR):
         destinazione = os.path.join(MODS_DIR, nome_file)
         scarica_file(download_url, destinazione)
         print(f"✅ Scaricato {nome_file}")
-    return down_error if down_error else None
+    return down_error
 
 def confronta_modlist(file1, file2):
     def estrai_mods(path):
