@@ -8,6 +8,7 @@ LuckPerms-Forge-5.4.102;https://mediafilez.forgecdn.net/files/4738/950/LuckPerms
 -oculus-mc1.20.1-1.8.0
 -watermedia-2.0.75
 -polytone-1.20-3.3.8
--Modern-Fullbright-4.0
+-[1.20.1] Modern Fullbright 4.0
 -BetterClouds-1.1
 -e4mc_minecraft-forge-5.3.1
+-BadOptimizations-2.3.0-1.20.1
