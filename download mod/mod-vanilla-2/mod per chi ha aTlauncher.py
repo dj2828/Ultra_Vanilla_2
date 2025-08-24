@@ -12,7 +12,7 @@ global USER
 USER = os.getlogin()
 global mod
 MINECRAFT = 'C:/users/'+USER+'/AppData/Roaming/ATLauncher/instances/Ultravanilla2/'
-GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/'
+GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/down/'
 mod=False
 
 try:

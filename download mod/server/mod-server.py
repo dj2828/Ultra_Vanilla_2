@@ -17,7 +17,7 @@ def fine():
 
 user = os.getlogin()
 
-response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/master/download%20mod/down/modlist-server.txt')
+response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/down/modlist-server.txt')
 with open('modlist-server.txt', 'wb') as f_out:
     f_out.write(response.content)
     print('Scaricato modlist-server.txt')
