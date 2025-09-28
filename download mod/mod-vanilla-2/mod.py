@@ -34,7 +34,7 @@ try:
         sys.exit()
 
     def tx():
-        print('\033[92mScaricamento texturepack\nAttendi...\033[0m')
+        print('\n\033[92mScaricamento texturepack\nAttendi...\033[0m')
         response = requests.get(GITHUB+'Ultra-vanilla-2.zip')
         with open('Ultra-vanilla-2.zip', 'wb') as f:
             f.write(response.content)

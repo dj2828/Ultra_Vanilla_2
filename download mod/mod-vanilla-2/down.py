@@ -3,6 +3,9 @@ import os
 import requests
 import shutil
 import time
+import concurrent.futures
+from tqdm import tqdm
+import threading
 
 API_KEY = "$2a$10$qP3o7IaF4x.p/GmbIBVvqOHjuZ9b.4Xc2tQ91GkW/DhVZjLIuWWpK"
 HEADERS = {
@@ -17,7 +20,7 @@ def ottieni_link_download(project_id, file_id):
     if resp.status_code == 200:
         return resp.json().get("data")
     else:
-        print(f"❌ Impossibile ottenere il link di download per Project ID: {project_id}, File ID: {file_id}")
+        tqdm.write(f"❌ Impossibile ottenere il link di download per Project ID: {project_id}, File ID: {file_id}")
         return None
 
 def ottieni_nome_file(project_id, file_id):
@@ -46,27 +49,36 @@ def sc(MODS_DIR):
 
     down_error = []
     durl = []
+    lock = threading.Lock()  # Per sincronizzare tqdm e down_error
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
     files = manifest.get("files", [])
 
-    for mod in files:
+    progress = tqdm(total=len(files), desc="Download mod", unit="mod")
+
+    def scarica_mod(mod):
         project_id = mod["projectID"]
         file_id = mod["fileID"]
-
         nome_file = ottieni_nome_file(project_id, file_id)
         download_url = ottieni_link_download(project_id, file_id)
         if not download_url:
-            down_error.append(nome_file)
-            durl.append(ottieni_url_progetto(project_id, file_id))
-            print(f"❌ Link di download non trovato per {nome_file}")
-            continue
+            with lock:
+                down_error.append(nome_file)
+                durl.append(ottieni_url_progetto(project_id, file_id))
+            tqdm.write(f"❌ Link di download non trovato per {nome_file}")
+        else:
+            destinazione = os.path.join(MODS_DIR, nome_file)
+            scarica_file(download_url, destinazione)
+            tqdm.write(f"✅ Scaricato {nome_file}")
+        with lock:
+            progress.update(1)
 
-        destinazione = os.path.join(MODS_DIR, nome_file)
-        scarica_file(download_url, destinazione)
-        print(f"✅ Scaricato {nome_file}")
-    return down_error, code
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        executor.map(scarica_mod, files)
+
+    progress.close()
+    return down_error, durl
 
 def rip_sposta(MODS_DIR):
     os.makedirs('./mods/')
@@ -134,23 +146,32 @@ def cancella_mod(list, MODS_DIR):
         else:
             print(f"⚠️  Il file {nome_file} non esiste nella directory.")
 
-def aggiungi_mod(list, MODS_DIR):
-    for mod in list:
-        down_error = []
+def aggiungi_mod(lista, MODS_DIR):
+    down_error = []
+    lock = threading.Lock()  # Per sincronizzare tqdm e down_error
+
+    progress = tqdm(total=len(lista), desc="Download mod", unit="mod")
+
+    def scarica_mod(mod):
         project_id = mod["projectID"]
         file_id = mod["fileID"]
-
         nome_file = ottieni_nome_file(project_id, file_id)
         download_url = ottieni_link_download(project_id, file_id)
-        if not download_url:
-                continue
-        if not download_url.startswith("https://"):
-            down_error.append(nome_file)
-            continue
+        if not download_url or not download_url.startswith("https://"):
+            with lock:
+                down_error.append(nome_file)
+            tqdm.write(f"❌ Link di download non trovato per {nome_file}")
+        else:
+            destinazione = os.path.join(MODS_DIR, nome_file)
+            scarica_file(download_url, destinazione)
+            tqdm.write(f"✅ Scaricato {nome_file}")
+        with lock:
+            progress.update(1)
 
-        destinazione = os.path.join(MODS_DIR, nome_file)
-        scarica_file(download_url, destinazione)
-        print(f"✅ Scaricato {nome_file}")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        executor.map(scarica_mod, lista)
+
+    progress.close()
     return down_error
 
 def confronta_modlist(file1, file2):
