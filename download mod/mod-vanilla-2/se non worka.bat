@@ -6,3 +6,4 @@ if /i "%scelta%"=="s" (
 ) else (
     python mod.py
 )
+pause
