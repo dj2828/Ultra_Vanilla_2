@@ -33,9 +33,8 @@ def ottieni_url_progetto(project_id, file_id):
     url = f"https://api.curseforge.com/v1/mods/{project_id}"
     resp = requests.get(url, headers=HEADERS)
     if resp.status_code == 200:
-        no = resp.json()["data"]["name"]
-        no = no.replace(" ", "-")
-        return f"https://www.curseforge.com/minecraft/mc-mods/{no.replace(":", "")}/download/{file_id}"
+        slug = resp.json()["data"]["slug"]  # <-- usa lo slug reale
+        return f"https://www.curseforge.com/minecraft/mc-mods/{slug}/download/{file_id}"
     return file_id
 
 def scarica_file(url, percorso_file):
