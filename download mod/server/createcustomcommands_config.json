@@ -12,6 +12,11 @@
     "notify": "no",
     "command1": "tp @p -290 133 -776.999 90 15"
   },
+  "s": {
+    "permission": "0",
+    "notify": "no",
+    "command1": "gamemode survival"
+  },
   "testcooldownpermission": {
     "permission": "0",
     "notifystring": "Test cooldown and permission",
