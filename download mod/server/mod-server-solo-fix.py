@@ -1,3 +1,5 @@
+# Questo script sistema le mod per il server ma non le scarica
+
 import os
 import shutil
 import sys
