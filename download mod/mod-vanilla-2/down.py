@@ -12,7 +12,7 @@ HEADERS = {
     "Accept": "application/json",
     "x-api-key": API_KEY
 }
-MANIFEST_PATH = "modlist.json"
+MANIFEST_PATH = "manifest.json"
 
 def ottieni_link_download(project_id, file_id):
     url = f"https://api.curseforge.com/v1/mods/{project_id}/files/{file_id}/download-url"

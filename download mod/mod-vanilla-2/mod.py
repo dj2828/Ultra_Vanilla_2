@@ -23,11 +23,11 @@ try:
             try:
                 os.remove('forge.jar')
                 os.remove('forge-1.20.1-47.4.0-installer.jar.log')
-                os.remove(MINECRAFT+'mods/modlist.json')
+                os.remove(MINECRAFT+'mods/manifest.json')
                 os.remove('differenze.json')
             except:
                 pass
-            shutil.move('modlist.json', MINECRAFT+'mods/modlist.json')
+            shutil.move('manifest.json', MINECRAFT+'mods/manifest.json')
 
             print('\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.0\033[0m')
             input('')
@@ -168,7 +168,7 @@ try:
         input('')
         print("Attendi...\033[0m\n")
 
-        down.confronta_modlist(MINECRAFT+'mods/modlist.json', 'modlist.json')
+        down.confronta_modlist(MINECRAFT+'mods/manifest.json', 'manifest.json')
 
         with open('differenze.json', "r", encoding="utf-8") as f:
             manifest = json.load(f)
@@ -242,10 +242,10 @@ try:
     cos = input('')
     os.system('cls')
     if cos == 's':
-        response = requests.get(GITHUB+'modlist.json')
-        with open('modlist.json', 'wb') as f:
+        response = requests.get(GITHUB+'manifest.json')
+        with open('manifest.json', 'wb') as f:
             f.write(response.content)
-        print(f'Scaricato modlist.json')
+        print(f'Scaricato manifest.json')
 
         while os.path.exists(MINECRAFT+'mods'):
             print('\033[91mLa cartella mods esiste ancora, rinominala o cancellala. premi INVIO\033[0m')
@@ -259,17 +259,17 @@ try:
         scarica_mod()
 
     elif cos == 'a':
-        if not os.path.exists(MINECRAFT+'mods/modlist.json'):
+        if not os.path.exists(MINECRAFT+'mods/manifest.json'):
             print("\033[91mLa cartella mods non esiste o è stata rinominata, quindi scegli 'scaricare' o rinominala in 'mods'. premi INVIO\033[0m")
             input('')
             os.system('start '+MINECRAFT)
             sys.exit()
-        response = requests.get(GITHUB+'modlist.json')
-        with open('modlist.json', 'wb') as f:
+        response = requests.get(GITHUB+'manifest.json')
+        with open('manifest.json', 'wb') as f:
             f.write(response.content)
-        print(f'Scaricato modlist.json')
+        print(f'Scaricato manifest.json')
         mod = True
-        if filecmp.cmp("modlist.json", MINECRAFT+'mods/modlist.json', shallow=False):
+        if filecmp.cmp("manifest.json", MINECRAFT+'mods/manifest.json', shallow=False):
             print("\033[92mLe mod sono già aggiornate\033[0m")
             cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
             if cos == 's':
@@ -279,10 +279,10 @@ try:
         upt_mod()
 
     elif cos == 'r':
-        response = requests.get(GITHUB+'modlist.json')
-        with open('modlist.json', 'wb') as f:
+        response = requests.get(GITHUB+'manifest.json')
+        with open('manifest.json', 'wb') as f:
             f.write(response.content)
-        print(f'Scaricato modlist.json')
+        print(f'Scaricato manifest.json')
         mod = True
         rip_mod()
 
