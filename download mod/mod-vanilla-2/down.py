@@ -1,5 +1,6 @@
 import json
 import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import requests
 import shutil
 import time
