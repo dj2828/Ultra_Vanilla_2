@@ -1,6 +1,7 @@
 # Questo script sistema le mod per il server ma non le scarica
 
 import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import shutil
 import sys
 import requests

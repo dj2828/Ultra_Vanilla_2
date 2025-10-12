@@ -1,5 +1,6 @@
 import os
 import requests
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if not os.path.exists('./down.py'):
     with open('down.py', 'wb') as f_out:
         response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/mod-vanilla-2/down.py')
@@ -11,6 +12,7 @@ import down
 import filecmp
 import json
 import webbrowser
+
 
 global USER
 USER = os.getlogin()
