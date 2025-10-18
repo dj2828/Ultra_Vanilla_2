@@ -184,14 +184,14 @@ try:
         print("\n\033[92mOra si ripareranno le mod. premere INVIO")
         input('')
         print("Attendi...\033[0m\n")
-        down.rip_sposta(MINECRAFT+'mods/')
+        gia_messe = down.rip_sposta(MINECRAFT+'mods/')
 
         shutil.rmtree(MINECRAFT+'mods/')
 
         # scarica quelle nuove
 
         if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
-        down_error, durl = down.rip_down()
+        down_error, durl = down.sc(MINECRAFT+'mods/', gia_messe)
 
         shutil.move('./mods/', MINECRAFT+'mods/')
 

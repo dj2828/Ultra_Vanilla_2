@@ -43,7 +43,7 @@ def scarica_file(url, percorso_file):
     with open(percorso_file, "wb") as f:
         f.write(resp.content)
 
-def sc(MODS_DIR):
+def sc(MODS_DIR, gia_messe=False):
     if not os.path.exists(MODS_DIR):
         os.makedirs(MODS_DIR)
 
@@ -51,9 +51,12 @@ def sc(MODS_DIR):
     durl = []
     lock = threading.Lock()  # Per sincronizzare tqdm e down_error
 
-    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
-        manifest = json.load(f)
-    files = manifest.get("files", [])
+    if gia_messe:
+        files = gia_messe
+    else:
+        with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+            manifest = json.load(f)
+        files = manifest.get("files", [])
 
     progress = tqdm(total=len(files), desc="Download mod", unit="mod")
 
@@ -74,7 +77,7 @@ def sc(MODS_DIR):
         with lock:
             progress.update(1)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+    with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(scarica_mod, files)
 
     progress.close()
@@ -82,7 +85,7 @@ def sc(MODS_DIR):
 
 def rip_sposta(MODS_DIR):
     os.makedirs('./mods/')
-    lock = threading.Lock()  # Per sincronizzare tqdm
+    lock = threading.Lock()  # Per sincronizzare tqdm e gia_messe
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -93,6 +96,7 @@ def rip_sposta(MODS_DIR):
 
     progress = tqdm(total=len(files), desc="Spostamento mod", unit="mod")
     
+    gia_messe = []
     def sposta(mod):
         project_id = mod["projectID"]
         file_id = mod["fileID"]
@@ -100,6 +104,7 @@ def rip_sposta(MODS_DIR):
 
         if os.path.exists(MODS_DIR+nome_file):
             shutil.move(MODS_DIR+nome_file, './mods/')
+            gia_messe.append(mod)
             tqdm.write(f"⏩ Spostato {nome_file}")
         with lock:
             progress.update(1)
@@ -108,36 +113,38 @@ def rip_sposta(MODS_DIR):
         executor.map(sposta, files)
 
     progress.close()
+
+    return gia_messe if gia_messe != [] else False 
         
 
-def rip_down():
-    down_error = []
-    durl = []
+# def rip_down():
+#     down_error = []
+#     durl = []
 
-    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
-        manifest = json.load(f)
+#     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+#         manifest = json.load(f)
 
-    files = manifest.get("files", [])
+#     files = manifest.get("files", [])
 
-    for mod in files:
-        project_id = mod["projectID"]
-        file_id = mod["fileID"]
+#     for mod in files:
+#         project_id = mod["projectID"]
+#         file_id = mod["fileID"]
 
-        nome_file = ottieni_nome_file(project_id, file_id)
-        if os.path.exists('./mods/'+nome_file):
-            continue
+#         nome_file = ottieni_nome_file(project_id, file_id)
+#         if os.path.exists('./mods/'+nome_file):
+#             continue
         
-        download_url = ottieni_link_download(project_id, file_id)
-        if not download_url:
-            down_error.append(nome_file)
-            durl.append(ottieni_url_progetto(project_id, file_id))
-            print(f"❌ Link di download non trovato per {nome_file}")
-            continue
+#         download_url = ottieni_link_download(project_id, file_id)
+#         if not download_url:
+#             down_error.append(nome_file)
+#             durl.append(ottieni_url_progetto(project_id, file_id))
+#             print(f"❌ Link di download non trovato per {nome_file}")
+#             continue
 
-        destinazione = os.path.join('./mods/', nome_file)
-        scarica_file(download_url, destinazione)
-        print(f"✅ Scaricato {nome_file}")
-    return down_error, durl
+#         destinazione = os.path.join('./mods/', nome_file)
+#         scarica_file(download_url, destinazione)
+#         print(f"✅ Scaricato {nome_file}")
+#     return down_error, durl
 
 def cancella_mod(list, MODS_DIR):
     for mod in list:
