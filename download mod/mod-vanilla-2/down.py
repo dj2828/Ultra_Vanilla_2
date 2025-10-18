@@ -106,6 +106,8 @@ def rip_sposta(MODS_DIR):
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         executor.map(sposta, files)
+
+    progress.close()
         
 
 def rip_down():
