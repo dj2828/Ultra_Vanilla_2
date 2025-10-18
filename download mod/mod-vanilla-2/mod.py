@@ -208,7 +208,7 @@ try:
         print("\n\033[92mOra si ripareranno le mod. premere INVIO")
         input('')
         print("Attendi...\033[0m\n")
-        down.rip_sposta(MINECRAFT+'mods/')
+        gia_messe = down.rip_sposta(MINECRAFT+'mods/')
 
         shutil.rmtree(MINECRAFT+'mods/')
 
