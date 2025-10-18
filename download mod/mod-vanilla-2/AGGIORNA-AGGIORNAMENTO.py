@@ -4,7 +4,7 @@ import os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/down/'
-COSE = ['down.py', 'leggimi.txt', 'mod per chi ha aTlauncher.py', 'mod.py', 'py.bat', 'se non worka.bat', 'AGGIORNA-AGGIORNAMENTO.py']
+COSE = ['down.py', 'leggimi.txt', 'mod per chi ha aTlauncher.py', 'mod.py', 'py.bat', 'AGGIORNA-AGGIORNAMENTO.py']
 
 for i in COSE:
     os.remove(i)
