@@ -87,8 +87,12 @@ def rip_sposta(MODS_DIR):
         manifest = json.load(f)
     files = manifest.get("files", [])
     print(f"🔍 Trovate {len(files)} mod nella modlist.")
-
-    if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
+    
+    def sposta(MODS_DIR):
+        if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
+    
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        executor.map(sposta, MODS_DIR)
         
     for mod in files:
         project_id = mod["projectID"]
