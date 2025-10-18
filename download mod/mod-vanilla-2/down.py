@@ -82,28 +82,32 @@ def sc(MODS_DIR):
 
 def rip_sposta(MODS_DIR):
     os.makedirs('./mods/')
+    lock = threading.Lock()  # Per sincronizzare tqdm
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
     files = manifest.get("files", [])
     print(f"🔍 Trovate {len(files)} mod nella modlist.")
     
-    def sposta(MODS_DIR):
-        if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
+    if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
+
+    progress = tqdm(total=len(files), desc="Spostamento mod", unit="mod")
     
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-        executor.map(sposta, MODS_DIR)
-        
-    for mod in files:
+    def sposta(mod):
         project_id = mod["projectID"]
         file_id = mod["fileID"]
         nome_file = ottieni_nome_file(project_id, file_id)
 
         if os.path.exists(MODS_DIR+nome_file):
             shutil.move(MODS_DIR+nome_file, './mods/')
-            print(f"⏩ Spostato {nome_file}")
-        else:
-            continue
+            tqdm.write(f"⏩ Spostato {nome_file}")
+        with lock:
+            progress.update(1)
+
+    for mod in files:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+            executor.map(sposta, mod)
+        
 
 def rip_down():
     down_error = []
