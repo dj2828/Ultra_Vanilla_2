@@ -1,10 +1,4 @@
-se non hai python installato, installalo (se non sai se hai python apri mod.py, se non si apre, non lo hai)
+se non hai python installato, installalo (se non sai se hai python apri universal.py, se non si apre, non lo hai)
 apri py.bat
 
-SE SEI DA TLAUNCHER:
-	apri mod.py
-
-SE SEI DA ATLAUNCHER:
-	CHIAMA L'ISTANZA .Ultra vanilla 2
-	versione 1.20.1
-	con forge 47.4.0
+apri universal.py
