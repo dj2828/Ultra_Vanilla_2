@@ -13,3 +13,4 @@ LuckPerms-Forge-5.4.102;https://mediafilez.forgecdn.net/files/4738/950/LuckPerms
 -e4mc_minecraft-forge-5.3.1
 -BadOptimizations-2.3.0-1.20.1
 -Audio Improvements v1.2 - Forge 1.20.1
+-controllable-forge-1.20.1-0.21.7.jar
