@@ -12,5 +12,9 @@ def index():
 def intro():
     return send_from_directory('C:/Users/dj28p/Desktop/UV2/', 'Intro Vanilla 2-yt.mp4')
 
+@app.route('/q')
+def q():
+    return send_from_directory('C:/Users/dj28p/Desktop/UV2/', 'intro quasimodo-yt.mp4')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
