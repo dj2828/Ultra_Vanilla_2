@@ -302,7 +302,7 @@ try:
     cos = input('')
     crack = False if cos == '1' else True # Flag per sapere se NON è ATlauncher
     # Percorso dell'istanza di Minecraft
-    MINECRAFT = os.path.join(os.getenv('APPDATA'), 'ATLauncher/instances/Ultravanilla2' if not crack else '.minecraft')
+    MINECRAFT = os.path.join(os.getenv('APPDATA'), 'ATLauncher/instances/Ultravanilla2/' if not crack else '.minecraft/')
 
     print("\nSe devi scaricare le mod scrivi 's'\nSe devi aggiornare scrivi 'a'\nSe devi riparare le mod scrivi 'r'\nSe devi aggiornare la texture pack scrivi 'tx'\nSe devi aggiornare altre cose scrivi 'cose'")
     cos = input('') # Legge la scelta dell'utente
