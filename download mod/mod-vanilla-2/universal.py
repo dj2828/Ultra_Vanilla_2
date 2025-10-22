@@ -156,6 +156,7 @@ try:
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error: # Se ci sono stati errori di download
+            os.system("cls")
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
             print("Le mod che non sono state scaricate sono:")
             for error in down_error:
