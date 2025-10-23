@@ -253,7 +253,7 @@ try:
         shutil.rmtree(MINECRAFT+'mods/')
         
         # Scarica il JAR personalizzato se non è stato salvato
-        if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mod/ultra_vanilla_2.jar')
+        if not os.path.exists('./mod/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mod/ultra_vanilla_2.jar')
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
