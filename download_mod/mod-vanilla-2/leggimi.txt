@@ -1,4 +1,3 @@
-se non hai python installato, installalo (se non sai se hai python apri universal.py, se non si apre, non lo hai)
 apri py.bat
 
 apri universal.py
