@@ -13,7 +13,6 @@ import filecmp
 import json
 import webbrowser
 
-
 global USER
 USER = os.getlogin()
 global mod
@@ -23,17 +22,23 @@ mod=False
 
 try:
     def fine():
-        os.system('cls')
-        shutil.rmtree('__pycache__/')
-        os.remove('down.py')
+        os.system('cls')  # Pulisce la console
         try:
-            os.remove('forge.jar')
-            os.remove('forge.jar.log')
-            os.remove(MINECRAFT+'mods/manifest.json')
-            os.remove('differenze.json')
+            shutil.rmtree('__pycache__/')  # Rimuove la cache di Python
         except:
             pass
-        shutil.move('manifest.json', MINECRAFT+'mods/manifest.json')
+        
+        if mod:  # Se è stata fatta un'operazione sulle mod
+            try:
+                # Rimuove il vecchio manifest dall'istanza e il file delle differenze
+                os.remove('forge.jar')
+                os.remove('forge.jar.log')
+                os.remove(MINECRAFT+'mods/manifest.json')
+                os.remove('differenze.json')
+            except:
+                pass  # Ignora errori se i file non esistono
+            # Sposta il nuovo manifest.json scaricato nella cartella mods
+            shutil.move('manifest.json', MINECRAFT+'mods/manifest.json')
 
         print('\n\033[92mFatto\033[0m')
         input('')
@@ -85,19 +90,25 @@ try:
         down_error, durl = down.sc(MINECRAFT+'mods/')
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
-        if down_error:
+        if down_error: # Se ci sono stati errori di download
+            os.system("cls")
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
             print("Le mod che non sono state scaricate sono:")
             for error in down_error:
                 print(error)
+            # Apre il browser per il download manuale
             input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
             for i in range(len(durl)):
                 print(f"{down_error[i]}: {durl[i]}\n")
-                webbrowser.open(durl[i])
+                webbrowser.open(durl[i]) # Apre il link di download nel browser
             input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
-
+            # Tenta di spostare le mod scaricate manually dalla cartella Downloads
             for i in down_error:
-                shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                try:
+                    # Sposta il file dalla cartella Downloads dell'utente alla cartella mods
+                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                except Exception as e:
+                    print(f"Errore nello spostare {i}: {e}") # Stampa un errore se lo spostamento fallisce
         print('Mod scaricate')
 
         fix_mod()
@@ -107,65 +118,97 @@ try:
         input('')
         print("Attendi...\033[0m\n")
 
+        # Confronta il manifest locale con quello nuovo e scrive le differenze in 'differenze.json'
         down.confronta_modlist(MINECRAFT+'mods/manifest.json', 'manifest.json')
 
+        # Legge 'differenze.json'
         with open('differenze.json', "r", encoding="utf-8") as f:
             manifest = json.load(f)
-            cancellare = manifest.get("cancellare", [])
-            aggiungere = manifest.get("aggiungere", [])
+            cancellare = manifest.get("cancellare", []) # Lista mod da cancellare
+            aggiungere = manifest.get("aggiungere", []) # Lista mod da aggiungere
 
         if cancellare:
-            down.cancella_mod(cancellare, MINECRAFT+'mods/')
+            down.cancella_mod(cancellare, MINECRAFT+'mods/') # Cancella le mod vecchie
         
-        if os.path.exists(MINECRAFT+'mods/mcef-libraries/'): shutil.move(MINECRAFT+'mods/mcef-libraries/', './mcef-libraries/')
+        # Rimuove il vecchio JAR personalizzato
         if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
 
-        # scarica quelle nuove
+        # Scarica le mod nuove
         if aggiungere:
-            down_error = down.aggiungi_mod(aggiungere, MINECRAFT+'mods/')
+            down_error = [] # Inizializza la lista di errori
+            durl = []
+            down_error, durl = down.aggiungi_mod(aggiungere, MINECRAFT+'mods/')
         
-        if os.path.exists('./mcef-libraries/'): shutil.move('./mcef-libraries/', MINECRAFT+'mods/mcef-libraries/')
+        # Scarica il nuovo JAR personalizzato
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
-        if down_error:
+        if down_error: # Se ci sono stati errori di download
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
             print("Le mod che non sono state scaricate sono:")
             for error in down_error:
                 print(error)
-            input('\n\033[91mPremere invio per continuare\033[0m')
+            # Apre il browser per il download manuale
+            input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+            for i in range(len(durl)):
+                print(f"{down_error[i]}: {durl[i]}\n")
+                webbrowser.open(durl[i]) # Apre il link di download nel browser
+            input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+            # Tenta di spostare le mod scaricate manually dalla cartella Downloads
+            for i in down_error:
+                try:
+                    # Sposta il file dalla cartella Downloads dell'utente alla cartella mods
+                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                except Exception as e:
+                    print(f"Errore nello spostare {i}: {e}") # Stampa un errore se lo spostamento fallisce
 
         print('Mod aggiornate')
 
         fix_mod()
 
-    def rip_mod():
+    def rip_mod(full):
         print("\n\033[92mOra si ripareranno le mod. premere INVIO")
         input('')
         print("Attendi...\033[0m\n")
-        down.rip_sposta(MINECRAFT+'mods/')
+        
+        # Sposta le mod valide esistenti in una cartella temporanea './mods'
+        if not full:
+            da_mettere = down.rip_sposta(MINECRAFT+'mods/', True)
+        else:
+            da_mettere = down.GET_MANIFEST()
 
+        # Rimuove la vecchia cartella mods (corrotta)
         shutil.rmtree(MINECRAFT+'mods/')
+        
+        # Scarica il JAR personalizzato se non è stato salvato
+        if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mod/ultra_vanilla_2.jar')
+        
+        if da_mettere:
+            # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
+            down_error, durl = down.sc('./mod/', da_mettere)
 
-        # scarica quelle nuove
+            # Sposta le mod salvate (da './mod') nella nuova cartella mods
+            shutil.move('./mod/', MINECRAFT+'mods/')
 
-        if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
-        down_error, durl = down.rip_down()
-
-        shutil.move('./mods/', MINECRAFT+'mods/')
-
-        if down_error:
-            print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
-            print("Le mod che non sono state scaricate sono:")
-            for error in down_error:
-                print(error)
-            input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
-            for i in range(len(durl)):
-                print(f"{down_error[i]}: {durl[i]}\n")
-                webbrowser.open(durl[i])
-            input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
-
-            for i in down_error:
-                shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+            if down_error: # Se ci sono stati errori di download
+                print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
+                print("Le mod che non sono state scaricate sono:")
+                for error in down_error:
+                    print(error)
+                # Apre il browser per il download manuale
+                input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+                for i in range(len(durl)):
+                    print(f"{down_error[i]}: {durl[i]}\n")
+                    webbrowser.open(durl[i])
+                input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+                # Tenta di spostare le mod scaricate manualmente dalla cartella Downloads
+                for i in down_error:
+                    try:
+                        shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                    except Exception as e:
+                        print(f"Errore nello spostare {i}: {e}")
+        else:
+            # Sposta le mod salvate (da './mod') nella nuova cartella mods
+            shutil.move('./mod/', MINECRAFT+'mods/')
 
         print('Mod riparate')
 
@@ -202,13 +245,17 @@ try:
             fine()
         upt_mod()
 
-    elif cos == 'r':
+    elif cos == 'r': # RIPARA
+        full = False
+        cos = input('\n\033[92mVuoi reinstallare tutte le mod o solo scaricare quelle che non ci sono (1/2) \033[0m')
+        if cos=="1":
+            full = True
         response = requests.get(GITHUB+'manifest.json')
         with open('manifest.json', 'wb') as f:
             f.write(response.content)
         print(f'Scaricato manifest.json')
         mod = True
-        rip_mod()
+        rip_mod(full)
 except SystemExit:
     raise
 except Exception as e:

@@ -106,15 +106,16 @@ def sc(MODS_DIR, gia_messe=False):
     return down_error, durl # Ritorna le liste di errori
 
 # Funzione per "riparare": sposta le mod valide dalla cartella corrotta
-def rip_sposta(MODS_DIR):
-    os.makedirs('./mods/', exist_ok=True) # Crea la cartella temporanea
+def rip_sposta(MODS_DIR, server=False):
+    mods = "/mod/" if server else "/mods/"
+    os.makedirs(mods, exist_ok=True) # Crea la cartella temporanea
     lock = threading.Lock()
 
     files = GET_MANIFEST() # Lista di *tutte* le mod del manifest
     print(f"🔍 Trovate {len(files)} mod nella modlist.")
     
     # Sposta il JAR personalizzato se esiste
-    if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', './mods/')
+    if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', mods)
 
     progress = tqdm(total=len(files), desc="Spostamento mod", unit="mod")
     
@@ -129,7 +130,7 @@ def rip_sposta(MODS_DIR):
 
         # Controlla se il file esiste nella cartella mods
         if os.path.exists(MODS_DIR+nome_file):
-            shutil.move(MODS_DIR+nome_file, './mods/') # Sposta nella cartella temporanea
+            shutil.move(MODS_DIR+nome_file, mods) # Sposta nella cartella temporanea
             with lock:
                 gia_messe.append(mod) # Aggiunge alla lista delle mod salvate
             tqdm.write(f"⏩ Spostato {nome_file}")

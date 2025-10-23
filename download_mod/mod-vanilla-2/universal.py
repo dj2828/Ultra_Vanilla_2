@@ -29,11 +29,11 @@ try:
         if mod:  # Se è stata fatta un'operazione sulle mod
             try:
                 # Rimuove il vecchio manifest dall'istanza e il file delle differenze
-                os.remove(MINECRAFT+'mods/manifest.json')
-                os.remove('differenze.json')
                 if crack:
                     os.remove('forge.jar')
                     os.remove('forge.jar.log')
+                os.remove(MINECRAFT+'mods/manifest.json')
+                os.remove('differenze.json')
             except:
                 pass  # Ignora errori se i file non esistono
             # Sposta il nuovo manifest.json scaricato nella cartella mods
@@ -212,9 +212,9 @@ try:
         if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         # Scarica le mod nuove
-        down_error = [] # Inizializza la lista di errori
-        durl = []
         if aggiungere:
+            down_error = [] # Inizializza la lista di errori
+            durl = []
             down_error, durl = down.aggiungi_mod(aggiungere, MINECRAFT+'mods/')
         
         # Rimette a posto 'mcef-libraries'
@@ -270,7 +270,7 @@ try:
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
-            down_error, durl = down.sc(MINECRAFT+'mods/', da_mettere)
+            down_error, durl = down.sc('./mods/', da_mettere)
 
             # Sposta le mod salvate (da './mods') nella nuova cartella mods
             shutil.move('./mods/', MINECRAFT+'mods/')
