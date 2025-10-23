@@ -245,7 +245,7 @@ try:
         
         # Sposta le mod valide esistenti in una cartella temporanea './mods'
         if not full:
-            da_mettere = down.rip_sposta(MINECRAFT+'mods/', True)
+            da_mettere = down.rip_sposta(MINECRAFT+'mods/', server=True)
         else:
             da_mettere = down.GET_MANIFEST()
 
