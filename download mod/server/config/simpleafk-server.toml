@@ -1,3 +1,5 @@
+# QUESTA VA MESSA NEI CONFIG DEL MONDO
+
 #How many seconds before the player is marked as AFK
 #Range: > 5
 secondsBeforeAfk = 120
@@ -31,4 +33,3 @@ playerNameFormat = "§7[AFK] §r$player"
 afkKickMessage = "§1You have been kicked for being AFK too long."
 #Whether exempt players should be included in the sleep vote.
 includeExemptPlayersInSleepVote = false
-
