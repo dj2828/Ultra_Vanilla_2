@@ -10,5 +10,4 @@ jobs:
       with:
         type: 'zip'
         filename: 'mod-vanilla-2.zip'
-        directory: './download_mod/'
-        path: './mod-vanilla-2/'
+        directory: './download_mod/mod-vanilla-2/'
