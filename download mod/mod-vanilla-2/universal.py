@@ -361,6 +361,7 @@ try:
             upt_mod()
 
     elif cos == 'r': # RIPARA
+        full = False
         cos = input('\n\033[92mVuoi reinstallare tutte le mod o solo scaricare quelle che non ci sono (1/2) \033[0m')
         if cos=="1":
             full = True
