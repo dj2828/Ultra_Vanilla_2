@@ -1,19 +1,18 @@
-- name: Create Archive
-  on: [push]
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@main
-      - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          type: 'zip'
-          filename: 'mod-vanilla-2.zip'
-          directory: './download_mod/mod-vanilla-2/'
-
-- name: Upload Release
-  uses: ncipollo/release-action@v1.12.0
-  with:
-    artifacts: "mod-vanilla-2.zip"
-    token: ${{ secrets.GITHUB_TOKEN }}
+name: Create Archive
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'mod-vanilla-2.zip'
+        directory: './download_mod/mod-vanilla-2/'
+    - name: Upload Release
+      uses: ncipollo/release-action@v1.12.0
+      with:
+        artifacts: "mod-vanilla-2.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
