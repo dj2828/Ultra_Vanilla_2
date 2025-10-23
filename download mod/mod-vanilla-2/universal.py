@@ -268,29 +268,33 @@ try:
         # Scarica il JAR personalizzato se non è stato salvato
         if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
         
-        # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
-        down_error, durl = down.sc(MINECRAFT+'mods/', da_mettere)
+        if da_mettere:
+            # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
+            down_error, durl = down.sc(MINECRAFT+'mods/', da_mettere)
 
-        # Sposta le mod salvate (da './mods') nella nuova cartella mods
-        shutil.move('./mods/', MINECRAFT+'mods/')
+            # Sposta le mod salvate (da './mods') nella nuova cartella mods
+            shutil.move('./mods/', MINECRAFT+'mods/')
 
-        if down_error: # Se ci sono stati errori di download
-            print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
-            print("Le mod che non sono state scaricate sono:")
-            for error in down_error:
-                print(error)
-            # Apre il browser per il download manuale
-            input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
-            for i in range(len(durl)):
-                print(f"{down_error[i]}: {durl[i]}\n")
-                webbrowser.open(durl[i])
-            input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
-            # Tenta di spostare le mod scaricate manualmente dalla cartella Downloads
-            for i in down_error:
-                try:
-                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
-                except Exception as e:
-                    print(f"Errore nello spostare {i}: {e}")
+            if down_error: # Se ci sono stati errori di download
+                print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
+                print("Le mod che non sono state scaricate sono:")
+                for error in down_error:
+                    print(error)
+                # Apre il browser per il download manuale
+                input('\n\033[91mPremere invio per scaricarle dal browser (SE DELLE MOD DA ERRORE 404, CERCATELE E SCARICATELE TE)\033[0m')
+                for i in range(len(durl)):
+                    print(f"{down_error[i]}: {durl[i]}\n")
+                    webbrowser.open(durl[i])
+                input('\n\033[91mPremere invio una volta finite di scaricare\033[0m')
+                # Tenta di spostare le mod scaricate manualmente dalla cartella Downloads
+                for i in down_error:
+                    try:
+                        shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                    except Exception as e:
+                        print(f"Errore nello spostare {i}: {e}")
+        else:
+            # Sposta le mod salvate (da './mods') nella nuova cartella mods
+            shutil.move('./mods/', MINECRAFT+'mods/')
 
         print('Mod riparate')
         tx() # Aggiorna il texture pack
