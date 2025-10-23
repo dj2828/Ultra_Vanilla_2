@@ -29,6 +29,7 @@ try:
             pass
         
         if mod:  # Se è stata fatta un'operazione sulle mod
+            os.remove('down.py')
             try:
                 # Rimuove il vecchio manifest dall'istanza e il file delle differenze
                 os.remove('forge.jar')
@@ -44,7 +45,74 @@ try:
         input('')
         sys.exit()
 
-    def fix_mod():
+    def cose(a):
+        # Scarica cose-server.zip
+        response = requests.get(GITHUB+'cose-server.zip')
+        with open('cose-server.zip', 'wb') as f:
+            f.write(response.content)
+        print('\nScaricato cose-server.zip')
+
+        # Estrae cose-server.zip in una cartella temporanea 'cosse'
+        with zipfile.ZipFile('cose-server.zip', 'r') as zip_ref:
+            os.makedirs('cosse/')
+            zip_ref.extractall('cosse/')
+        print('Cose estratte')
+
+        # Legge il file 'cose.txt' che contiene le istruzioni
+        with open('./cosse/cose.txt', 'r') as file:
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue  # Salta linee vuote
+
+                dirr = False  # Flag per sapere se è una directory
+                operation = line[0]  # Legge l'operazione (+ = aggiungi/sostituisci, altro = ?)
+                name, _ = line.split(';')
+                if '.' not in name:
+                    dirr = True  # Se non c'è un punto, assume sia una directory
+                
+                if operation != '+':
+                    # Logica per operazioni diverse da '+'
+                    if a:  # Se è un aggiornamento (a=True), salta questa operazione
+                        continue
+                    else: # Se è un'installazione (a=False)
+                        name, dire = line.split(';')
+                        dire = MINECRAFT+dire # Costruisce il percorso di destinazione
+                        if dirr:
+                            shutil.move('cosse/'+name, dire) # Sposta la directory
+                        else:
+                            if os.path.exists(dire)==False:
+                                os.makedirs(dire) # Crea la cartella se non esiste
+                            shutil.move('cosse/'+name, dire+name) # Sposta il file
+                        print('Spostato '+name)
+                else:
+                    # Logica per operazione '+' (aggiungi/sostituisci)
+                    rest = line[1:]
+                    name, dire = rest.split(';')
+                    dire = MINECRAFT+dire
+                    if a or crack: # Se è un aggiornamento (a=True), prova a rimuovere il vecchio file/dir
+                        try:
+                            if dirr:
+                                shutil.rmtree(dire)
+                            else:
+                                os.remove(dire+name)
+                        except:
+                            pass # Ignora errori se il file non esiste
+                    # Sposta il nuovo file/dir
+                    if dirr:
+                        shutil.move('cosse/'+name, dire)
+                    else:
+                        if os.path.exists(dire)==False:
+                            os.makedirs(dire)
+                        shutil.move('cosse/'+name, dire+name)
+                    print('Spostato '+name)
+        
+        # Pulizia dei file temporanei
+        os.remove('cose-server.zip')
+        shutil.rmtree('cosse/')
+        fine()
+
+    def fix_mod(a=False):
         response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/modlist-server.txt')
         with open('modlist-server.txt', 'wb') as f_out:
             f_out.write(response.content)
@@ -68,7 +136,7 @@ try:
                     with open('./mods/' + nome + '.jar', 'wb') as f:
                         f.write(response.content)
                     print(f'Scaricato {nome}')
-        fine()
+        cose(a)
 
     def scarica_mod():
         with open('forge.jar', 'wb') as f:
@@ -163,7 +231,7 @@ try:
 
         print('Mod aggiornate')
 
-        fix_mod()
+        fix_mod(True)
 
     def rip_mod(full):
         print("\n\033[92mOra si ripareranno le mod. premere INVIO")
