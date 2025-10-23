@@ -1,2 +1,14 @@
-- name: action-zip
-  uses: montudor/action-zip@v1.0.0
+name: Create Archive
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@main
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        filename: 'mod-vanilla-2.zip'
+        directory: 'download mod\down\'
+        path: 'download mod\mod-vanilla-2\'
