@@ -1,2 +1,2 @@
-download mod/server/simple-discord-link.toml
 apri server/.env
+download mod/server/config/config/simple-discord-link/simple-discord-link.toml
