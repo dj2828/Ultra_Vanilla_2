@@ -29,9 +29,6 @@ try:
         if mod:  # Se è stata fatta un'operazione sulle mod
             try:
                 # Rimuove il vecchio manifest dall'istanza e il file delle differenze
-                if crack:
-                    os.remove('forge.jar')
-                    os.remove('forge.jar.log')
                 os.remove(MINECRAFT+'mods/manifest.json')
                 os.remove('differenze.json')
             except:
@@ -184,6 +181,8 @@ try:
             os.system('start '+'./forge.jar') # Esegue il file .jar
             print('\n\033[92mUna volta finito premi INVIO\033[0m')
             input('') # Attende che l'utente finisca l'installazione manuale
+            os.remove('forge.jar')
+            os.remove('forge.jar.log')
 
         print('Mod scaricate')
         cose(False) # Chiama 'cose' in modalità installazione (False)

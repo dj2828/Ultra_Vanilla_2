@@ -32,8 +32,6 @@ try:
             os.remove('down.py')
             try:
                 # Rimuove il vecchio manifest dall'istanza e il file delle differenze
-                os.remove('forge.jar')
-                os.remove('forge.jar.log')
                 os.remove(MINECRAFT+'mods/manifest.json')
                 os.remove('differenze.json')
             except:
@@ -151,6 +149,9 @@ try:
         os.system('start '+'./forge.jar')
         print('\n\033[92mUna volta finito premi INVIO\033[0m')
         input('')
+
+        os.remove('forge.jar')
+        os.remove('forge.jar.log')
 
         print("\n\033[92mOra si scaricheranno le mod.")
         print("Attendi...\033[0m\n")
