@@ -1,0 +1,7 @@
+
+["Voidblock Config"]
+	#Should Voidblock be enabled
+	"Voidblock Enabled" = false
+	#Delay between items gained from right clicking the air in milliseconds
+	"Item Delay" = 100
+
