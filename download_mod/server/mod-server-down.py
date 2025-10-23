@@ -151,8 +151,11 @@ try:
         print('\n\033[92mUna volta finito premi INVIO\033[0m')
         input('')
 
-        os.remove('forge.jar')
-        os.remove('forge.jar.log')
+        try:
+            os.remove('forge.jar')
+            os.remove('forge.jar.log')
+        except:
+            pass
 
         print("\n\033[92mOra si scaricheranno le mod.")
         print("Attendi...\033[0m\n")
