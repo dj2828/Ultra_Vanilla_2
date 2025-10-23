@@ -46,7 +46,6 @@ reg add HKEY_CURRENT_USER\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f >
 
 :: Installa moduli richiesti
 echo Installazione moduli Python (requests, tqdm)...
-py -m pip install --upgrade pip >nul
 py -m pip install requests tqdm
 
 echo.
