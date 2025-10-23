@@ -1,18 +1,29 @@
 name: Create Archive
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+
     steps:
     - uses: actions/checkout@main
+    
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
         type: 'zip'
         filename: 'mod-vanilla-2.zip'
-        directory: './download_mod/mod-vanilla-2/'
+        path: 'download_mod/mod-vanilla-2' # Zippa solo i contenuti di questa cartella
+
     - name: Upload Release
       uses: ncipollo/release-action@v1.12.0
       with:
+        # Lo zip si trova nella directory di lavoro specificata sopra ('.')
         artifacts: "mod-vanilla-2.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
+        # Parametri aggiuntivi per garantire che carichi lo zip e crei una release
+        tag: v${{ github.sha }} # Crea un tag basato sull'hash di commit
+        name: Release ${{ github.ref_name }}
+        allowUpdates: true # Permette di aggiornare una release se il tag esiste
