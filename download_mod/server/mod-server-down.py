@@ -3,7 +3,7 @@ import requests
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if not os.path.exists('./down.py'):
     with open('down.py', 'wb') as f_out:
-        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/mod-vanilla-2/down.py')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/mod-vanilla-2/down.py')
         f_out.write(response.content)
 import shutil
 import sys
@@ -18,7 +18,7 @@ global USER
 USER = os.getlogin()
 global mod
 MINECRAFT = './'
-GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/down/'
+GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
 mod=False
 
 try:
@@ -40,7 +40,7 @@ try:
         sys.exit()
 
     def fix_mod():
-        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/down/modlist-server.txt')
+        response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/modlist-server.txt')
         with open('modlist-server.txt', 'wb') as f_out:
             f_out.write(response.content)
             print('Scaricato modlist-server.txt')

@@ -15,7 +15,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 USER = os.getlogin()  # Ottiene il nome utente di Windows
 mod = False  # Flag per sapere se è stata eseguita un'operazione sulle mod (per la pulizia finale)
 # URL base su GitHub da cui scaricare i file (manifest, zip, ecc.)
-GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download%20mod/down/'
+GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
 
 try:
     # Funzione chiamata alla fine dello script per pulire e uscire
