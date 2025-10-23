@@ -88,7 +88,7 @@ try:
                     rest = line[1:]
                     name, dire = rest.split(';')
                     dire = MINECRAFT+dire
-                    if a or crack: # Se è un aggiornamento (a=True), prova a rimuovere il vecchio file/dir
+                    if a: # Se è un aggiornamento (a=True), prova a rimuovere il vecchio file/dir
                         try:
                             if dirr:
                                 shutil.rmtree(dire)
@@ -134,6 +134,7 @@ try:
                     with open('./mods/' + nome + '.jar', 'wb') as f:
                         f.write(response.content)
                     print(f'Scaricato {nome}')
+        os.remove('modlist-server.txt')
         cose(a)
 
     def scarica_mod():
