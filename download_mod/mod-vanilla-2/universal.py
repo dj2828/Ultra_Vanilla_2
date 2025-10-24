@@ -261,8 +261,11 @@ try:
         else:
             da_mettere = down.GET_MANIFEST()
 
-        # Rimuove la vecchia cartella mods (corrotta)
-        shutil.rmtree(MINECRAFT+'mods/')
+        try:
+            # Rimuove la vecchia cartella mods (corrotta)
+            shutil.rmtree(MINECRAFT+'mods/')
+        except:
+            pass
         
         # Scarica il JAR personalizzato se non è stato salvato
         if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
