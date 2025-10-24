@@ -130,10 +130,11 @@ try:
                         print(f'Cancellato {line}')
                 else:
                     nome, modlink = line.split(';')
-                    response = requests.get(modlink)
-                    with open('./mods/' + nome + '.jar', 'wb') as f:
-                        f.write(response.content)
-                    print(f'Scaricato {nome}')
+                    if not os.path.exists('./mods/' + nome + '.jar'):
+                        response = requests.get(modlink)
+                        with open('./mods/' + nome + '.jar', 'wb') as f:
+                            f.write(response.content)
+                        print(f'Scaricato {nome}')
         os.remove('modlist-server.txt')
         cose(a)
 
