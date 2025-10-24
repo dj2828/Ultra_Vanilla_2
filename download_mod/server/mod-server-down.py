@@ -216,6 +216,7 @@ try:
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error: # Se ci sono stati errori di download
+            os.system("cls")
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
             print("Le mod che non sono state scaricate sono:")
             for error in down_error:
@@ -263,6 +264,7 @@ try:
             shutil.move('./mod/', MINECRAFT+'mods/')
 
             if down_error: # Se ci sono stati errori di download
+                os.system("cls")
                 print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
                 print("Le mod che non sono state scaricate sono:")
                 for error in down_error:
@@ -315,7 +317,11 @@ try:
         mod = True
         if filecmp.cmp("manifest.json", MINECRAFT+'mods/manifest.json', shallow=False):
             print("\033[92mLe mod sono già aggiornate\033[0m")
-            fine()
+            cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
+            if cos == 's':
+                cose(True)
+            elif cos == 'n':
+                fine()
         upt_mod()
 
     elif cos == 'r': # RIPARA
