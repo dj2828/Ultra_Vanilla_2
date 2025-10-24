@@ -107,7 +107,7 @@ def sc(MODS_DIR, gia_messe=False):
 
 # Funzione per "riparare": sposta le mod valide dalla cartella corrotta
 def rip_sposta(MODS_DIR, server=False):
-    mods = "mod/" if server else "mods/"
+    mods = os.path.join(os.getcwd(), "mod") if server else os.path.join(os.getcwd(), "mods")
     os.makedirs(mods, exist_ok=True) # Crea la cartella temporanea
     lock = threading.Lock()
 

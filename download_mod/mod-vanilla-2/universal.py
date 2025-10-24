@@ -65,7 +65,7 @@ try:
 
     # Funzione per scaricare e installare "cose" (file di configurazione, ecc.)
     # 'a' è un booleano: True = aggiornamento (rimuove i vecchi file), False = installazione (non rimuove)
-    def cose(a):
+    def cose(a=False):
         # Scarica cose.zip
         response = requests.get(GITHUB+'cose.zip')
         with open('cose.zip', 'wb') as f:
@@ -185,7 +185,7 @@ try:
             os.remove('forge.jar.log')
 
         print('Mod scaricate')
-        cose(False) # Chiama 'cose' in modalità installazione (False)
+        cose() # Chiama 'cose' in modalità installazione (False)
 
     # Funzione per aggiornare le mod
     def upt_mod():
@@ -296,7 +296,7 @@ try:
             shutil.move('./mods/', MINECRAFT+'mods/')
 
         print('Mod riparate')
-        tx() # Aggiorna il texture pack
+        cose() # Chiama cose in installazione (False)
 
 # --- Inizio Esecuzione Script ---
     print(USER)
