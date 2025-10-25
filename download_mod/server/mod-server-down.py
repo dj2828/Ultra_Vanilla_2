@@ -142,6 +142,11 @@ try:
             response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.0/forge-1.20.1-47.4.0-installer.jar')
             f.write(response.content)
         print('Scaricato forge.jar')
+        if OS:
+            with open('controllo.sh', 'wb') as f:
+                response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/server/controllo.sh')
+                f.write(response.content)
+            print('Scaricato controllo.sh')
 
         # installa_forge
 
