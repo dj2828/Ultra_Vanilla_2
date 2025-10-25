@@ -5,15 +5,22 @@ echo     Controllo installazione Python
 echo =====================================
 echo.
 
-:: Controlla se Python è installato
-python --version >nul 2>&1
+:: 1. CONTROLLO E RECUPERO VERSIONE (USARE 'py' E REINDIRIZZAMENTO ROBUSTO)
+:: Tenta di eseguire 'py --version'. Se riesce (errorlevel=0), Python e' installato.
+py --version >nul 2>&1
 if %errorlevel%==0 (
-    for /f "tokens=2 delims= " %%a in ('python --version 2^>^&1') do set PYVER=%%a
-    echo Python è già installato! Versione: %PYVER%
-) else (
-    echo Python non è installato. Avvio installazione...
     
-    :: Controlla se winget è disponibile
+    :: Python e' installato. Recupera la versione in modo robusto.
+    :: 'py -V' stampa solo il numero (es. 3.12.0) che e' piu' facile da catturare.
+    for /f "delims=" %%a in ('py -V') do set PYVER=%%a
+    echo Python e' gia' installato! Versione: %PYVER%
+
+    :: Salta l'installazione e vai alla configurazione.
+    goto Configure
+) else (
+    echo Python non e' installato o non e' nel PATH (anche dopo il riavvio). Avvio installazione...
+    
+    :: 2. CONTROLLO WINGET
     winget --version >nul 2>&1
     if %errorlevel% neq 0 (
         echo Errore: winget non trovato. Installa manualmente Python da https://python.org
@@ -21,7 +28,7 @@ if %errorlevel%==0 (
         exit /b 1
     )
 
-    :: Installa Python con winget (ultima versione stabile)
+    :: 3. INSTALLAZIONE CON WINGET
     echo.
     echo Installazione di Python tramite winget...
     winget install -e --id Python.Python.3.12 -h
@@ -31,11 +38,19 @@ if %errorlevel%==0 (
         exit /b 1
     )
 
+    :: 4. ISTRUZIONI PER IL RIAVVIO DOPO L'INSTALLAZIONE
     echo.
-    echo Installazione completata. Aggiornamento PATH...
-    setx PATH "%PATH%;%LocalAppData%\Programs\Python\Python312\Scripts;%LocalAppData%\Programs\Python\Python312\"
+    echo ********************************************************
+    echo INSTALLAZIONE COMPLETATA.
+    echo E' necessario RIAVVIARE QUESTA FINESTRA DEL TERMINALE
+    echo per rendere il comando 'py' disponibile.
+    echo RIESEGUIRE LO SCRIPT DOPO IL RIAVVIO.
+    echo ********************************************************
+    pause
+    exit /b 0
 )
 
+:Configure
 echo.
 echo =====================================
 echo     Configurazione ambiente Python
@@ -44,7 +59,7 @@ echo =====================================
 :: Abilita colori console
 reg add HKEY_CURRENT_USER\Console /v VirtualTerminalLevel /t REG_DWORD /d 1 /f >nul
 
-:: Installa moduli richiesti
+:: Installa moduli richiesti (usa 'py -m pip' che e' piu' affidabile di 'pip')
 echo Installazione moduli Python (requests, tqdm)...
 py -m pip install requests tqdm
 

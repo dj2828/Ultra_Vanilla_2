@@ -13,12 +13,11 @@ import filecmp
 import json
 import webbrowser
 
-global USER
 USER = os.getlogin()
-global mod
 MINECRAFT = './'
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
-mod=False
+mod = False
+OS = False if os.name == 'nt' else True
 
 try:
     def fine():
@@ -148,9 +147,13 @@ try:
 
         print('\033[92mOra comparirà una finestra per installare forge, tu prosegui')
         input('Premi INVIO per iniziare\033[0m ')
-        os.system('start '+'./forge.jar')
-        print('\n\033[92mUna volta finito premi INVIO\033[0m')
-        input('')
+        if OS:
+            os.system("java -jar forge.jar --installServer")
+            os.system("clear")
+        else:
+            os.system('start '+'./forge.jar')
+            print('\n\033[92mUna volta finito premi INVIO\033[0m')
+            input('')
 
         try:
             os.remove('forge.jar')

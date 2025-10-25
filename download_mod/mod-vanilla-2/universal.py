@@ -299,7 +299,11 @@ try:
             shutil.move('./mods/', MINECRAFT+'mods/')
 
         print('Mod riparate')
-        cose() # Chiama cose in installazione (False)
+        cos = input('\n\033[92mVuoi reinstallare cose? (s/n) \033[0m')
+        if cos == 's':
+            cose() # Chiama cose in installazione (False)
+        elif cos == 'n':
+            cose(True) # Chiama 'cose' in modalità aggiornamento
 
 # --- Inizio Esecuzione Script ---
     print(USER)
