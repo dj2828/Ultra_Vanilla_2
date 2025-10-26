@@ -346,11 +346,11 @@ try:
 
     elif cos == 'a': # AGGIORNA
         # Controllo di sicurezza: verifica che esista un manifest da aggiornare
-        if not os.path.exists(MINECRAFT+'mods/' and not crack): # Controlla se la cartella mods esiste
+        if not os.path.exists(MINECRAFT+'mods/') and not crack: # Controlla se la cartella mods esiste
             print("\033[91mLa cartella mods non esiste, quindi scegli 'scaricare'. premi INVIO\033[0m")
             input('')
             sys.exit()
-        elif not os.path.exists(MINECRAFT+'mods/manifest.json' and crack):
+        elif not os.path.exists(MINECRAFT+'mods/manifest.json') and crack:
             print("\033[91mLa cartella mods non esiste o è stata rinominata, quindi scegli 'scaricare', rinominala in 'mods' o riparare. premi INVIO\033[0m")
             input('')
             os.system('start '+MINECRAFT)
