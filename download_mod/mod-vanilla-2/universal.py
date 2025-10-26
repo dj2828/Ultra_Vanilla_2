@@ -120,7 +120,10 @@ try:
                             pass # Ignora errori se il file non esiste
                     # Sposta il nuovo file/dir
                     if dirr:
-                        shutil.move('cosse/'+name, dire)
+                        try:
+                            shutil.move('cosse/'+name, dire)
+                        except Exception as e:
+                            print(f"Errore nello spostare la directory {name}: {e}")
                     else:
                         if os.path.exists(dire)==False:
                             os.makedirs(dire)
