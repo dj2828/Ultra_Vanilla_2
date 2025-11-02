@@ -211,18 +211,12 @@ try:
 
         if cancellare:
             down.cancella_mod(cancellare, MINECRAFT+'mods/') # Cancella le mod vecchie
-        
-        # Rimuove il vecchio JAR personalizzato
-        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         # Scarica le mod nuove
         if aggiungere:
             down_error = [] # Inizializza la lista di errori
             durl = []
             down_error, durl = down.aggiungi_mod(aggiungere, MINECRAFT+'mods/')
-        
-        # Scarica il nuovo JAR personalizzato
-        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
 
         if down_error: # Se ci sono stati errori di download
             os.system("cls")
@@ -262,8 +256,10 @@ try:
         # Rimuove la vecchia cartella mods (corrotta)
         shutil.rmtree(MINECRAFT+'mods/')
         
-        # Scarica il JAR personalizzato se non è stato salvato
-        if not os.path.exists('./mod/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mod/ultra_vanilla_2.jar')
+        # Rimuove il vecchio JAR personalizzato
+        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
+        # Scarica il nuovo JAR personalizzato
+        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
@@ -324,6 +320,12 @@ try:
             f.write(response.content)
         print(f'Scaricato manifest.json')
         mod = True
+
+        # Rimuove il vecchio JAR personalizzato
+        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
+        # Scarica il nuovo JAR personalizzato
+        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        
         if filecmp.cmp("manifest.json", MINECRAFT+'mods/manifest.json', shallow=False):
             print("\033[92mLe mod sono già aggiornate\033[0m")
             cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
