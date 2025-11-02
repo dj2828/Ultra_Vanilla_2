@@ -72,6 +72,7 @@ try:
             f.write(response.content)
         print('\nScaricato cose.zip')
 
+        if os.path.exists("cosse/"): os.rmdir("cosse")
         # Estrae cose.zip in una cartella temporanea 'cosse'
         with zipfile.ZipFile('cose.zip', 'r') as zip_ref:
             os.makedirs('cosse/')
