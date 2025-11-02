@@ -185,7 +185,10 @@ try:
             print('\n\033[92mUna volta finito premi INVIO\033[0m')
             input('') # Attende che l'utente finisca l'installazione manuale
             os.remove('forge.jar')
-            os.remove('forge.jar.log')
+            try:
+                os.remove('forge.jar.log')
+            except:
+                pass
 
         print('Mod scaricate')
         cose() # Chiama 'cose' in modalità installazione (False)
