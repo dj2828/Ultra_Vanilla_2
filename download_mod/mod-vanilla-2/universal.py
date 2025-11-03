@@ -82,55 +82,58 @@ try:
         # Legge il file 'cose.txt' che contiene le istruzioni
         with open('./cosse/cose.txt', 'r') as file:
             for line in file:
-                line = line.strip()
-                if not line:
-                    continue  # Salta linee vuote
+                try:
+                    line = line.strip()
+                    if not line:
+                        continue  # Salta linee vuote
 
-                dirr = False  # Flag per sapere se è una directory
-                operation = line[0]  # Legge l'operazione (+ = aggiungi/sostituisci, altro = ?)
-                name, _ = line.split(';')
-                if '.' not in name:
-                    dirr = True  # Se non c'è un punto, assume sia una directory
-                
-                if operation != '+':
-                    # Logica per operazioni diverse da '+'
-                    if a:  # Se è un aggiornamento (a=True), salta questa operazione
-                        continue
-                    else: # Se è un'installazione (a=False)
-                        name, dire = line.split(';')
-                        dire = MINECRAFT+dire # Costruisce il percorso di destinazione
+                    dirr = False  # Flag per sapere se è una directory
+                    operation = line[0]  # Legge l'operazione (+ = aggiungi/sostituisci, altro = ?)
+                    name, _ = line.split(';')
+                    if '.' not in name:
+                        dirr = True  # Se non c'è un punto, assume sia una directory
+                    
+                    if operation != '+':
+                        # Logica per operazioni diverse da '+'
+                        if a:  # Se è un aggiornamento (a=True), salta questa operazione
+                            continue
+                        else: # Se è un'installazione (a=False)
+                            name, dire = line.split(';')
+                            dire = MINECRAFT+dire # Costruisce il percorso di destinazione
+                            if dirr:
+                                shutil.move('cosse/'+name, dire) # Sposta la directory
+                            else:
+                                if os.path.exists(dire)==False:
+                                    os.makedirs(dire) # Crea la cartella se non esiste
+                                shutil.move('cosse/'+name, dire+name) # Sposta il file
+                            print('Spostato '+name)
+                    else:
+                        # Logica per operazione '+' (aggiungi/sostituisci)
+                        rest = line[1:]
+                        name, dire = rest.split(';')
+                        dire = MINECRAFT+dire
+                        if a or crack: # Se è un aggiornamento (a=True), prova a rimuovere il vecchio file/dir
+                            try:
+                                if dirr:
+                                    shutil.rmtree(dire)
+                                else:
+                                    os.remove(dire+name)
+                            except:
+                                pass # Ignora errori se il file non esiste
+                        # Sposta il nuovo file/dir
                         if dirr:
-                            shutil.move('cosse/'+name, dire) # Sposta la directory
+                            try:
+                                shutil.move('cosse/'+name, dire)
+                            except Exception as e:
+                                print(f"Errore nello spostare la directory {name}: {e}")
                         else:
                             if os.path.exists(dire)==False:
-                                os.makedirs(dire) # Crea la cartella se non esiste
-                            shutil.move('cosse/'+name, dire+name) # Sposta il file
+                                os.makedirs(dire)
+                            shutil.move('cosse/'+name, dire+name)
                         print('Spostato '+name)
-                else:
-                    # Logica per operazione '+' (aggiungi/sostituisci)
-                    rest = line[1:]
-                    name, dire = rest.split(';')
-                    dire = MINECRAFT+dire
-                    if a or crack: # Se è un aggiornamento (a=True), prova a rimuovere il vecchio file/dir
-                        try:
-                            if dirr:
-                                shutil.rmtree(dire)
-                            else:
-                                os.remove(dire+name)
-                        except:
-                            pass # Ignora errori se il file non esiste
-                    # Sposta il nuovo file/dir
-                    if dirr:
-                        try:
-                            shutil.move('cosse/'+name, dire)
-                        except Exception as e:
-                            print(f"Errore nello spostare la directory {name}: {e}")
-                    else:
-                        if os.path.exists(dire)==False:
-                            os.makedirs(dire)
-                        shutil.move('cosse/'+name, dire+name)
-                    print('Spostato '+name)
-        
+                except Exception as e:
+                    print(f"Errore nell'elaborare la linea '{line}': {e}")
+
         # Pulizia dei file temporanei
         os.remove('cose.zip')
         shutil.rmtree('cosse/')
