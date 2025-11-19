@@ -158,6 +158,7 @@ try:
         down_error, durl = down.sc(MINECRAFT+'mods/')
         # Scarica il file JAR personalizzato
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        down.scarica_file(GITHUB+'noisium-forge-2.3.0+mc1.20-1.20.1.jar', MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar')
 
         if down_error: # Se ci sono stati errori di download
             os.system("cls")
@@ -219,6 +220,8 @@ try:
         if os.path.exists(MINECRAFT+'mods/mcef-libraries/'): shutil.move(MINECRAFT+'mods/mcef-libraries/', './mcef-libraries/')
         # Rimuove il vecchio JAR personalizzato
         if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
+        # Sposta noisium-forge-2.3.0+mc1.20-1.20.1.jar
+        if os.path.exists(MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar'): shutil.move(MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar', './noisium-forge-2.3.0+mc1.20-1.20.1.jar')
 
         # Scarica le mod nuove
         if aggiungere:
@@ -230,6 +233,8 @@ try:
         if os.path.exists('./mcef-libraries/'): shutil.move('./mcef-libraries/', MINECRAFT+'mods/mcef-libraries/')
         # Scarica il nuovo JAR personalizzato
         down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        # Risposta noisium-forge-2.3.0+mc1.20-1.20.1.jar
+        if os.path.exists('./noisium-forge-2.3.0+mc1.20-1.20.1.jar'): shutil.move('./noisium-forge-2.3.0+mc1.20-1.20.1.jar', MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar')
 
         if down_error: # Se ci sono stati errori di download
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")
@@ -279,6 +284,7 @@ try:
         
         # Scarica il JAR personalizzato se non è stato salvato
         if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
+        if not os.path.exists('./mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar'): down.scarica_file(GITHUB+'noisium-forge-2.3.0+mc1.20-1.20.1.jar', './mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar')
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
