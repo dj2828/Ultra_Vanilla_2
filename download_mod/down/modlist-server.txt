@@ -16,3 +16,4 @@ bluemap-5.12-mc1.20-6-forge.jar;https://cdn.modrinth.com/data/swbUV1cr/versions/
 -BadOptimizations-2.3.0-1.20.1
 -Audio Improvements v1.2 - Forge 1.20.1
 -controllable-forge-1.20.1-0.21.7
+-reforgedplaymod-1.20.1-0.3.1
