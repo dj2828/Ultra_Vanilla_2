@@ -59,6 +59,21 @@ try:
         shutil.move('Ultra-vanilla-2.zip', MINECRAFT+'resourcepacks/')
         
         print('Texture pack installata')
+
+        # down delle tx extra
+        if not os.path.exists(MINECRAFT+'resourcepacks/FreshAnimations_v1.10.3.zip'):
+            response = requests.get("https://mediafilez.forgecdn.net/files/7352/23/FreshAnimations_v1.10.3.zip")
+            with open(MINECRAFT+'resourcepacks/FreshAnimations_v1.10.3.zip', 'wb') as f:
+                f.write(response.content)
+        if not os.path.exists(MINECRAFT+'resourcepacks/FA+Objects-v2.1.zip'):
+            response = requests.get("https://mediafilez.forgecdn.net/files/7292/163/FA%2BObjects-v2.1.zip")
+            with open(MINECRAFT+'resourcepacks/FA+Objects-v2.1.zip', 'wb') as f:
+                f.write(response.content) 
+        if not os.path.exists(MINECRAFT+'resourcepacks/Gentler Weather Sounds 2.1.0.zip'):
+            response = requests.get("https://mediafilez.forgecdn.net/files/7283/401/Gentler%20Weather%20Sounds%202.1.0.zip")
+            with open(MINECRAFT+'resourcepacks/Gentler Weather Sounds 2.1.0.zip', 'wb') as f:
+                f.write(response.content) 
+
         input('\033[92mPremere invio\033[0m ')
         
         fine() # Chiama la funzione di fine
