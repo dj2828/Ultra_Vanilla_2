@@ -16,6 +16,7 @@ USER = os.getlogin()  # Ottiene il nome utente di Windows
 mod = False  # Flag per sapere se è stata eseguita un'operazione sulle mod (per la pulizia finale)
 # URL base su GitHub da cui scaricare i file (manifest, zip, ecc.)
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
+CUSTOMS_JAR = down.get_custom_jar_list()
 
 try:
     # Funzione chiamata alla fine dello script per pulire e uscire
@@ -36,7 +37,7 @@ try:
             # Sposta il nuovo manifest.json scaricato nella cartella mods
             shutil.move('manifest.json', MINECRAFT+'mods/manifest.json')
 
-        print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m' if not crack else '\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.0\033[0m')
+        print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m' if not crack else '\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.10\033[0m')
         input('')  # Attende l'input dell'utente prima di chiudere
         sys.exit() # Esce dallo script
 
@@ -172,8 +173,7 @@ try:
         # Chiama la funzione 'sc' dal modulo 'down' per scaricare le mod dal manifest
         down_error, durl = down.sc(MINECRAFT+'mods/')
         # Scarica il file JAR personalizzato
-        CUSTOMS_JAR = down.get_custom_jar_list()
-        for name, url in CUSTOMS_JAR.items:
+        for name, url in CUSTOMS_JAR.items():
             down.scarica_file(url, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
@@ -235,8 +235,7 @@ try:
         # Sposta temporaneamente 'mcef-libraries' (probabilmente per evitare che venga cancellato)
         if os.path.exists(MINECRAFT+'mods/mcef-libraries/'): shutil.move(MINECRAFT+'mods/mcef-libraries/', './mcef-libraries/')
         # Rimuove il vecchio JAR personalizzato
-        CUSTOMS_JAR = down.get_custom_jar_list()
-        for name, url in CUSTOMS_JAR.items:
+        for name, url in CUSTOMS_JAR.items():
             if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
 
         # Scarica le mod nuove
@@ -248,7 +247,7 @@ try:
         # Rimette a posto 'mcef-libraries'
         if os.path.exists('./mcef-libraries/'): shutil.move('./mcef-libraries/', MINECRAFT+'mods/mcef-libraries/')
         # Scarica il nuovo JAR personalizzato
-        for name, url in CUSTOMS_JAR.items:
+        for name, url in CUSTOMS_JAR.items():
             down.scarica_file(url, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
@@ -298,8 +297,7 @@ try:
             pass
         
         # Scarica il JAR personalizzato se non è stato salvato
-        CUSTOMS_JAR = down.get_custom_jar_list()
-        for name, url in CUSTOMS_JAR.items:
+        for name, url in CUSTOMS_JAR.items():
             if not os.path.exists('./mods/'+name): down.scarica_file(GITHUB+name, './mods/'+name)
         
         if da_mettere:

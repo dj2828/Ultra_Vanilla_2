@@ -118,7 +118,7 @@ def rip_sposta(MODS_DIR, server=False):
     
     # Sposta il JAR personalizzato se esiste
     CUSTOMS_JAR = down.get_custom_jar_list()
-    for name, url in CUSTOMS_JAR.items:
+    for name, url in CUSTOMS_JAR.items():
         if os.path.exists(MODS_DIR+name): shutil.move(MODS_DIR+name, mods)
 
     progress = tqdm(total=len(files), desc="Spostamento mod", unit="mod")

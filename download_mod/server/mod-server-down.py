@@ -18,6 +18,7 @@ MINECRAFT = './'
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
 mod = False
 OS = False if os.name == 'nt' else True
+CUSTOMS_JAR = down.get_custom_jar_list()
 
 try:
     def fine():
@@ -170,8 +171,8 @@ try:
         print("Attendi...\033[0m\n")
         
         down_error, durl = down.sc(MINECRAFT+'mods/')
-        CUSTOMS_JAR = down.get_custom_jar_list()
-        for name, url in CUSTOMS_JAR.items:
+        
+        for name, url in CUSTOMS_JAR.items():
             down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
@@ -259,8 +260,7 @@ try:
         shutil.rmtree(MINECRAFT+'mods/')
         
         # Rimuove il vecchio JAR personalizzato
-        CUSTOMS_JAR = down.get_custom_jar_list()
-        for name, url in CUSTOMS_JAR.items:
+        for name, url in CUSTOMS_JAR.items():
             if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
             # Scarica il nuovo JAR personalizzato
             down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
@@ -326,8 +326,7 @@ try:
         mod = True
 
         # Rimuove il vecchio JAR personalizzato
-        CUSTOMS_JAR = down.get_custom_jar_list()
-        for name, url in CUSTOMS_JAR.items:
+        for name, url in CUSTOMS_JAR.items():
             if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
             # Scarica il nuovo JAR personalizzato
             down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
@@ -363,5 +362,5 @@ except SystemExit:
 except Exception as e:
     os.system('cls')
     print("\033[91mERRORE\033[0m")
-    print('\033[91mAPRI "se non worka.bat". se non va neanche quello chiedi a dj \033[0m')
+    print('\033[Chiedi a dj \033[0m')
     input(e)
