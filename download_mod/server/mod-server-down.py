@@ -139,7 +139,7 @@ try:
 
     def scarica_mod():
         with open('forge.jar', 'wb') as f:
-            response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.0/forge-1.20.1-47.4.0-installer.jar')
+            response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.10/forge-1.20.1-47.4.10-installer.jar')
             f.write(response.content)
         print('Scaricato forge.jar')
         if OS:
