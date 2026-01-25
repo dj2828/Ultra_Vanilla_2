@@ -23,3 +23,4 @@ tt20-0.7.1+mc1.20.1;https://cdn.modrinth.com/data/YS3ZignI/versions/EOiK6xJj/tt2
 -effectual-forge-1.3.0-1.20.1
 -SimpleDiscordLink-Universal-3.1.3
 -blur-forge-3.1.1
+-colorwheel-forge-1.2.1+mc1.20.1
