@@ -298,8 +298,9 @@ try:
             pass
         
         # Scarica il JAR personalizzato se non è stato salvato
-        if not os.path.exists('./mods/ultra_vanilla_2.jar'): down.scarica_file(GITHUB+'ultra_vanilla_2.jar', './mods/ultra_vanilla_2.jar')
-        if not os.path.exists('./mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar'): down.scarica_file(GITHUB+'noisium-forge-2.3.0+mc1.20-1.20.1.jar', './mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar')
+        CUSTOMS_JAR = down.get_custom_jar_list()
+        for name, url in CUSTOMS_JAR.items:
+            if not os.path.exists('./mods/'+name): down.scarica_file(GITHUB+name, './mods/'+name)
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')

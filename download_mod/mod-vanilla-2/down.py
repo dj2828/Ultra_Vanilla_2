@@ -117,8 +117,9 @@ def rip_sposta(MODS_DIR, server=False):
     print(f"🔍 Trovate {len(files)} mod nella modlist.")
     
     # Sposta il JAR personalizzato se esiste
-    if os.path.exists(MODS_DIR+'ultra_vanilla_2.jar'): shutil.move(MODS_DIR+'ultra_vanilla_2.jar', mods)
-    if os.path.exists(MODS_DIR+'noisium-forge-2.3.0+mc1.20-1.20.1.jar'): shutil.move(MODS_DIR+'noisium-forge-2.3.0+mc1.20-1.20.1.jar', mods)
+    CUSTOMS_JAR = down.get_custom_jar_list()
+    for name, url in CUSTOMS_JAR.items:
+        if os.path.exists(MODS_DIR+name): shutil.move(MODS_DIR+name, mods)
 
     progress = tqdm(total=len(files), desc="Spostamento mod", unit="mod")
     

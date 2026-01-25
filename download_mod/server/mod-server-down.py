@@ -170,7 +170,9 @@ try:
         print("Attendi...\033[0m\n")
         
         down_error, durl = down.sc(MINECRAFT+'mods/')
-        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        CUSTOMS_JAR = down.get_custom_jar_list()
+        for name, url in CUSTOMS_JAR.items:
+            down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
             os.system("cls")
@@ -257,9 +259,11 @@ try:
         shutil.rmtree(MINECRAFT+'mods/')
         
         # Rimuove il vecchio JAR personalizzato
-        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
-        # Scarica il nuovo JAR personalizzato
-        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        CUSTOMS_JAR = down.get_custom_jar_list()
+        for name, url in CUSTOMS_JAR.items:
+            if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
+            # Scarica il nuovo JAR personalizzato
+            down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
@@ -296,7 +300,7 @@ try:
 
     print(USER)
     print("Benvenuto nell' installer delle mod")
-    print("Se devi scaricare le mod scrivi 's'\nSe devi aggiornare scrivi 'a'\nSe devi riparare le mod scrivi 'r'")
+    print("Se devi scaricare le mod scrivi 's'\nSe devi aggiornare scrivi 'a'\nSe devi riparare le mod scrivi 'r'\n'upt' per aggiornare questo file")
     cos = input('')
     os.system('cls')
     if cos == 's':
@@ -322,9 +326,11 @@ try:
         mod = True
 
         # Rimuove il vecchio JAR personalizzato
-        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
-        # Scarica il nuovo JAR personalizzato
-        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
+        CUSTOMS_JAR = down.get_custom_jar_list()
+        for name, url in CUSTOMS_JAR.items:
+            if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
+            # Scarica il nuovo JAR personalizzato
+            down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
         
         if filecmp.cmp("manifest.json", MINECRAFT+'mods/manifest.json', shallow=False):
             print("\033[92mLe mod sono già aggiornate\033[0m")
@@ -346,6 +352,12 @@ try:
         print(f'Scaricato manifest.json')
         mod = True
         rip_mod(full)
+    
+    elif cos == "upt":
+        response = requests.get("https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/refs/heads/main/download_mod/server/mod-server-down.py")
+        os.remove("mod-server-down.py")
+        with open("mod-server-down.py", "wb") as f:
+            f.write(response.content)
 except SystemExit:
     raise
 except Exception as e:
