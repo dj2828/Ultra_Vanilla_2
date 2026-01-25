@@ -173,7 +173,7 @@ try:
         down_error, durl = down.sc(MINECRAFT+'mods/')
         
         for name, url in CUSTOMS_JAR.items():
-            down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
+            down.scarica_file(url, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
             os.system("cls")
@@ -263,7 +263,7 @@ try:
         for name, url in CUSTOMS_JAR.items():
             if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
             # Scarica il nuovo JAR personalizzato
-            down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
+            down.scarica_file(url, MINECRAFT+'mods/'+name)
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
@@ -329,7 +329,7 @@ try:
         for name, url in CUSTOMS_JAR.items():
             if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
             # Scarica il nuovo JAR personalizzato
-            down.scarica_file(GITHUB+name, MINECRAFT+'mods/'+name)
+            down.scarica_file(url, MINECRAFT+'mods/'+name)
         
         if filecmp.cmp("manifest.json", MINECRAFT+'mods/manifest.json', shallow=False):
             print("\033[92mLe mod sono già aggiornate\033[0m")

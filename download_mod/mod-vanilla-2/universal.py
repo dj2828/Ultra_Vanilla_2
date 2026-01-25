@@ -298,7 +298,7 @@ try:
         
         # Scarica il JAR personalizzato se non è stato salvato
         for name, url in CUSTOMS_JAR.items():
-            if not os.path.exists('./mods/'+name): down.scarica_file(GITHUB+name, './mods/'+name)
+            if not os.path.exists('./mods/'+name): down.scarica_file(url, './mods/'+name)
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
