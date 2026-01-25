@@ -172,8 +172,9 @@ try:
         # Chiama la funzione 'sc' dal modulo 'down' per scaricare le mod dal manifest
         down_error, durl = down.sc(MINECRAFT+'mods/')
         # Scarica il file JAR personalizzato
-        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
-        down.scarica_file(GITHUB+'noisium-forge-2.3.0+mc1.20-1.20.1.jar', MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar')
+        CUSTOMS_JAR = down.get_custom_jar_list()
+        for name, url in CUSTOMS_JAR.items:
+            down.scarica_file(url, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
             os.system("cls")
@@ -234,9 +235,9 @@ try:
         # Sposta temporaneamente 'mcef-libraries' (probabilmente per evitare che venga cancellato)
         if os.path.exists(MINECRAFT+'mods/mcef-libraries/'): shutil.move(MINECRAFT+'mods/mcef-libraries/', './mcef-libraries/')
         # Rimuove il vecchio JAR personalizzato
-        if os.path.exists(MINECRAFT+'mods/ultra_vanilla_2.jar'): os.remove(MINECRAFT+'mods/ultra_vanilla_2.jar')
-        # Sposta noisium-forge-2.3.0+mc1.20-1.20.1.jar
-        if os.path.exists(MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar'): shutil.move(MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar', './noisium-forge-2.3.0+mc1.20-1.20.1.jar')
+        CUSTOMS_JAR = down.get_custom_jar_list()
+        for name, url in CUSTOMS_JAR.items:
+            if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
 
         # Scarica le mod nuove
         if aggiungere:
@@ -247,9 +248,8 @@ try:
         # Rimette a posto 'mcef-libraries'
         if os.path.exists('./mcef-libraries/'): shutil.move('./mcef-libraries/', MINECRAFT+'mods/mcef-libraries/')
         # Scarica il nuovo JAR personalizzato
-        down.scarica_file(GITHUB+'ultra_vanilla_2.jar', MINECRAFT+'mods/ultra_vanilla_2.jar')
-        # Risposta noisium-forge-2.3.0+mc1.20-1.20.1.jar
-        if os.path.exists('./noisium-forge-2.3.0+mc1.20-1.20.1.jar'): shutil.move('./noisium-forge-2.3.0+mc1.20-1.20.1.jar', MINECRAFT+'mods/noisium-forge-2.3.0+mc1.20-1.20.1.jar')
+        for name, url in CUSTOMS_JAR.items:
+            down.scarica_file(url, MINECRAFT+'mods/'+name)
 
         if down_error: # Se ci sono stati errori di download
             print("\033[91mATTENZIONE: alcune mod non sono state scaricate\033[0m")

@@ -16,6 +16,8 @@ HEADERS = {
 }
 MANIFEST_PATH = "manifest.json" # Nome del file manifest
 
+GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
+
 def GET_MANIFEST():
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -275,6 +277,21 @@ def confronta_modlist(file1, file2):
     with open('differenze.json', 'w', encoding='utf-8') as out:
         json.dump(risultato, out, indent=4, ensure_ascii=False)
 
+def get_custom_jar_list():
+    jar = {}
+    text = requests.get(f"{GITHUB}custom-jar/custom-jar.txt").text
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        nome, url = line.split(";")
+
+        if "GITHUB" in url:
+            url = url.replace("GITHUB", GITHUB+"custom-jar/"+nome)
+
+        jar[nome] = url
+    return jar
 
 if __name__ == "__main__":
     # Se lo script viene eseguito direttamente
