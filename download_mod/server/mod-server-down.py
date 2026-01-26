@@ -266,9 +266,9 @@ try:
         
         # Rimuove il vecchio JAR personalizzato
         for name, url in CUSTOMS_JAR.items():
-            if os.path.exists(MINECRAFT+'mods/'+name): os.remove(MINECRAFT+'mods/'+name)
+            if os.path.exists(MINECRAFT+'mod/'+name): os.remove(MINECRAFT+'mod/'+name)
             # Scarica il nuovo JAR personalizzato
-            down.scarica_file(url, MINECRAFT+'mods/'+name)
+            down.scarica_file(url, MINECRAFT+'mod/'+name)
         
         if da_mettere:
             # Chiama 'sc' passando la lista delle mod MANCANTI ('da_mettere')
