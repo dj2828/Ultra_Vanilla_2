@@ -13,7 +13,11 @@ import filecmp
 import json
 import webbrowser
 
-USER = os.getlogin()
+if os.name == 'nt':  # Windows
+    USER = os.getlogin()
+else:  # Linux/Unix
+    USER = os.getenv('USER') or os.getenv('LOGNAME') or 'user'
+DOWNLOAD_PATH = os.path.expanduser(f"~/{USER}/Downloads/") if os.name != 'nt' else f"C:\\Users\\{USER}\\Downloads\\"
 MINECRAFT = './'
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
 mod = False
@@ -191,7 +195,7 @@ try:
             for i in down_error:
                 try:
                     # Sposta il file dalla cartella Downloads dell'utente alla cartella mods
-                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                    shutil.move(DOWNLOAD_PATH+i, MINECRAFT+'mods/')
                 except Exception as e:
                     print(f"Errore nello spostare {i}: {e}") # Stampa un errore se lo spostamento fallisce
         print('Mod scaricate')
@@ -237,7 +241,7 @@ try:
             for i in down_error:
                 try:
                     # Sposta il file dalla cartella Downloads dell'utente alla cartella mods
-                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                    shutil.move(DOWNLOAD_PATH+i, MINECRAFT+'mods/')
                 except Exception as e:
                     print(f"Errore nello spostare {i}: {e}") # Stampa un errore se lo spostamento fallisce
 
@@ -287,7 +291,7 @@ try:
                 # Tenta di spostare le mod scaricate manualmente dalla cartella Downloads
                 for i in down_error:
                     try:
-                        shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                        shutil.move(DOWNLOAD_PATH+i, MINECRAFT+'mods/')
                     except Exception as e:
                         print(f"Errore nello spostare {i}: {e}")
         else:
