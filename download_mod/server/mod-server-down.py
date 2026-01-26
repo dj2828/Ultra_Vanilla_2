@@ -15,9 +15,10 @@ import webbrowser
 
 if os.name == 'nt':  # Windows
     USER = os.getlogin()
+    DOWNLOAD_PATH = f"C:\\Users\\{USER}\\Downloads\\"
 else:  # Linux/Unix
-    USER = os.getenv('USER') or os.getenv('LOGNAME') or 'user'
-DOWNLOAD_PATH = os.path.expanduser(f"~/{USER}/Downloads/") if os.name != 'nt' else f"C:\\Users\\{USER}\\Downloads\\"
+    USER = "I use arch btw"
+    DOWNLOAD_PATH = os.path.expanduser(f"~/Downloads/")
 MINECRAFT = './'
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
 mod = False
