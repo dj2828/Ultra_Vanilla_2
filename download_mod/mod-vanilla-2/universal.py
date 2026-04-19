@@ -37,7 +37,7 @@ try:
             # Sposta il nuovo manifest.json scaricato nella cartella mods
             shutil.move('manifest.json', MINECRAFT+'mods/manifest.json')
 
-        print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m' if not crack else '\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.10\033[0m')
+        print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m' if not crack else '\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.20\033[0m')
         input('')  # Attende l'input dell'utente prima di chiudere
         sys.exit() # Esce dallo script
 
@@ -160,7 +160,7 @@ try:
         if crack:
             # Scarica l'installer di Forge
             with open('forge.jar', 'wb') as f:
-                response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.10/forge-1.20.1-47.4.10-installer.jar')
+                response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.20/forge-1.20.1-47.4.20-installer.jar')
                 f.write(response.content)
             print('Scaricato forge.jar')
 
