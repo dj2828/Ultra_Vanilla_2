@@ -2,4 +2,3 @@ ultra_vanilla_2.jar;GITHUB
 noisium.jar;GITHUB
 Palladium.jar;GITHUB
 AFKcamera.jar;GITHUB
-palegardenbackport.jar;GITHUB
