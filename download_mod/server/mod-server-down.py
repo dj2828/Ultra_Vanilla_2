@@ -144,10 +144,10 @@ try:
         cose(a)
 
     def scarica_mod():
-        with open('forge.jar', 'wb') as f:
+        with open('neoforge.jar', 'wb') as f:
             response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.20/forge-1.20.1-47.4.20-installer.jar')
             f.write(response.content)
-        print('Scaricato forge.jar')
+        print('Scaricato neoforge.jar')
         if OS:
             with open('controllo.sh', 'wb') as f:
                 response = requests.get('https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/server/controllo.sh')
@@ -159,16 +159,16 @@ try:
         print('\033[92mOra comparirà una finestra per installare forge, tu prosegui')
         input('Premi INVIO per iniziare\033[0m ')
         if OS:
-            os.system("java -jar forge.jar --installServer")
+            os.system("java -jar neoforge.jar --installServer")
             os.system("clear")
         else:
-            os.system('start '+'./forge.jar')
+            os.system('start '+'./neoforge.jar')
             print('\n\033[92mUna volta finito premi INVIO\033[0m')
             input('')
 
         try:
-            os.remove('forge.jar')
-            os.remove('forge.jar.log')
+            os.remove('neoforge.jar')
+            os.remove('neoforge.jar.log')
         except:
             pass
 

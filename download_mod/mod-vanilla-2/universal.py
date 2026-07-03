@@ -37,7 +37,7 @@ try:
             # Sposta il nuovo manifest.json scaricato nella cartella mods
             shutil.move('manifest.json', MINECRAFT+'mods/manifest.json')
 
-        print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m' if not crack else '\n\033[92mOra prova ad aprire minecarft 1.20.1 forge 47.4.20\033[0m')
+        print('\n\033[92mOra prova ad aprire ATlaunche COME OFFLINE\033[0m' if not crack else '\n\033[92mOra prova ad aprire minecarft 1.21.1 neoforge\033[0m')
         input('')  # Attende l'input dell'utente prima di chiudere
         sys.exit() # Esce dallo script
 
@@ -159,10 +159,10 @@ try:
 
         if crack:
             # Scarica l'installer di Forge
-            with open('forge.jar', 'wb') as f:
-                response = requests.get('https://maven.minecraftforge.net/net/minecraftforge/forge/1.20.1-47.4.20/forge-1.20.1-47.4.20-installer.jar')
+            with open('neoforge.jar', 'wb') as f:
+                response = requests.get('https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.235/neoforge-21.1.235-installer.jar')
                 f.write(response.content)
-            print('Scaricato forge.jar')
+            print('Scaricato neoforge.jar')
 
         # Chiama la funzione 'sc' dal modulo 'down' per scaricare le mod dal manifest
         down_error, durl = down.sc(MINECRAFT+'mods/')
@@ -196,12 +196,12 @@ try:
             # Avvia l'installer di Forge
             print('\033[92mOra comparirà una finestra per installare forge, tu prosegui')
             input('Premi INVIO per iniziare\033[0m ')
-            os.system('start '+'./forge.jar') # Esegue il file .jar
+            os.system('start '+'./neoforge.jar') # Esegue il file .jar
             print('\n\033[92mUna volta finito premi INVIO\033[0m')
             input('') # Attende che l'utente finisca l'installazione manuale
-            os.remove('forge.jar')
+            os.remove('neoforge.jar')
             try:
-                os.remove('forge.jar.log')
+                os.remove('neoforge.jar.log')
             except:
                 pass
 
@@ -344,6 +344,12 @@ try:
     os.system('cls') # Pulisce lo schermo
     
     if cos == 's': # SCARICA
+        
+        if not crack and not os.path.exists(MINECRAFT+'mods/'): # Controlla se la istanza ATlauncher è stata creata
+            print("\033[91mCrea la istanza di Minecraft 'Neoforge 1.21.1', chiamandola '.Ultra vanilla 2'. premi INVIO\033[0m")
+            input('')
+            sys.exit()
+
         response = requests.get(GITHUB+'manifest.json') # Scarica il manifest
         with open('manifest.json', 'wb') as f:
             f.write(response.content)
