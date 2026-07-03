@@ -1,2 +1,2 @@
 ultra_vanilla_2.jar;GITHUB
-easybuilding-neoforge;https://cdn.modrinth.com/data/t3wlJuW5/versions/HxkdqSKS/easybuilding-neoforge-1.21.1-v1.1.jar?mr_download_reason=standalone&mr_game_version=1.21.1&mr_loader=neoforge
+easybuilding-neoforge.jar;https://cdn.modrinth.com/data/t3wlJuW5/versions/HxkdqSKS/easybuilding-neoforge-1.21.1-v1.1.jar?mr_download_reason=standalone&mr_game_version=1.21.1&mr_loader=neoforge
