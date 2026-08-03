@@ -1,25 +1,22 @@
-CraterLib-Forge-1.20-3.1.0;https://mediafilez.forgecdn.net/files/7810/715/CraterLib-Forge-1.20-3.1.0.jar
-SimpleDiscordLink-Universal-3.4.0;https://mediafilez.forgecdn.net/files/7810/964/SimpleDiscordLink-Universal-3.4.0.jar
+CraterLib-Forge-1.21-3.1.2+hotfix.1;https://mediafilez.forgecdn.net/files/8119/149/CraterLib-Forge-1.21-3.1.2%2Bhotfix.1.jar
+SimpleDiscordLink-Universal-3.4.4;https://mediafilez.forgecdn.net/files/8437/65/SimpleDiscordLink-Universal-3.4.4.jar
 simpleauth-2.0.1;https://mediafilez.forgecdn.net/files/6003/540/simpleauth-2.0.1.jar
-LuckPerms-Forge-5.4.102;https://mediafilez.forgecdn.net/files/4738/950/LuckPerms-Forge-5.4.102.jar
-SimpleBackups-1.20.1-3.1.24;https://mediafilez.forgecdn.net/files/7451/460/SimpleBackups-1.20.1-3.1.24.jar
-bluemap-5.12-mc1.20-6-forge;https://cdn.modrinth.com/data/swbUV1cr/versions/kC7iYqja/bluemap-5.12-mc1.20-6-forge.jar
-tt20-0.7.1+mc1.20.1;https://cdn.modrinth.com/data/YS3ZignI/versions/EOiK6xJj/tt20-0.7.1%2Bmc1.20.1.jar
--citresewn-1.20.1-5
--entity_model_features_1.20.1-forge-3.1.1
--entity_texture_features_1.20.1-forge-7.1
--oculus-mc1.20.1-1.8.0
--polytone-1.20-3.5.23
--[1.20.1] Modern Fullbright 4.0
--BetterClouds-1.1
--BadOptimizations-2.4.1-1.20.1
--Audio Improvements v1.3.1 - Forge 1.20.1
--controllable-forge-1.20.1-0.21.9
--reforgedplaymod-1.20.1-0.3.1
--3d-armor-0.9.3-mod
--particlerain-4.0.0-beta.9+1.20.1-forge
--effectual-forge-1.3.1-1.20.1
--blur-forge-3.1.1
--colorwheel-forge-1.2.3+mc1.20.1
+LuckPerms-NeoForge-5.4.140;https://mediafilez.forgecdn.net/files/5654/231/LuckPerms-NeoForge-5.4.140.jar
+SimpleBackups-1.21-4.0.30;https://mediafilez.forgecdn.net/files/7965/880/SimpleBackups-1.21-4.0.30.jar
+bluemap-5.7-neoforge;https://mediafilez.forgecdn.net/files/6239/407/bluemap-5.7-neoforge.jar
+tt20-0.8.4+mc1.21.1-neoforge;https://cdn.modrinth.com/data/YS3ZignI/versions/2RnrIn18/tt20-0.8.4%2Bmc1.21.1-neoforge.jar?mr_download_reason=standalone&mr_game_version=1.21.1&mr_loader=neoforge
+-entity_model_features-3.2.4-1.21-neoforge
+-entity_texture_features_1.21-neoforge-7.1
+-iris-neoforge-1.8.14-beta.1+mc1.21.1
+-polytone-neoforge-1.21-3.8.3
+-better-clouds-1.13.5-beta+1.21.1-neoforge.rev.a60dfa0
+-BadOptimizations-2.4.1-1.21.1
+-Audio Improvements v1.1 - NeoForge 1.21-1.21.3
+-controllable-neoforge-1.21.1-0.25.4
+-reforgedplaymod-1.21.1-0.3
+-3d-armor-0.9.4-mod
+-particlerain-4.0.0-beta.10+1.21.1-neoforge
+-effectual-neoforge-1.4.0-1.21.1
+-blur-neoforge-6.3.1+1.21.1
+-colorwheel-neoforge-1.2.9+mc1.21.1
 -Palladium
--ToadLib-1.3.5-1.20.1
