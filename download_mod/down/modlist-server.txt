@@ -1,4 +1,3 @@
-CraterLib-Forge-1.21-3.1.2+hotfix.1;https://mediafilez.forgecdn.net/files/8119/149/CraterLib-Forge-1.21-3.1.2%2Bhotfix.1.jar
 SimpleDiscordLink-Universal-3.4.4;https://mediafilez.forgecdn.net/files/8437/65/SimpleDiscordLink-Universal-3.4.4.jar
 simpleauth-2.0.1;https://mediafilez.forgecdn.net/files/6003/540/simpleauth-2.0.1.jar
 LuckPerms-NeoForge-5.4.140;https://mediafilez.forgecdn.net/files/5654/231/LuckPerms-NeoForge-5.4.140.jar
@@ -20,3 +19,8 @@ tt20-0.8.4+mc1.21.1-neoforge;https://cdn.modrinth.com/data/YS3ZignI/versions/2Rn
 -blur-neoforge-6.3.1+1.21.1
 -colorwheel-neoforge-1.2.9+mc1.21.1
 -Palladium
+-sodium-neoforge-0.8.12-beta.2+mc1.21.1
+-create_train_perspective-1.1.1
+-drippyloadingscreen_neoforge_3.1.2_MC_1.21.1
+-afk-cinematics-1.21.1
+-bobby-5.2.4+mc1.21
