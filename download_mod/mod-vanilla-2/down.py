@@ -54,10 +54,23 @@ def ottieni_url_progetto(project_id, file_id):
     return file_id # Fallback
 
 # Funzione helper per scaricare un file da un URL
-def scarica_file(url, percorso_file):
-    resp = requests.get(url)
+# Se viene passata 'speed_bar' (una tqdm che misura i byte), il download avviene
+# a blocchi e la barra viene aggiornata in tempo reale, mostrando MB scaricati e MB/s
+def scarica_file(url, percorso_file, speed_bar=None, lock=None):
+    resp = requests.get(url, stream=True)
     with open(percorso_file, "wb") as f:
-        f.write(resp.content)
+        if speed_bar is None:
+            f.write(resp.content)
+        else:
+            for chunk in resp.iter_content(chunk_size=1024 * 64):
+                if not chunk:
+                    continue
+                f.write(chunk)
+                if lock:
+                    with lock:
+                        speed_bar.update(len(chunk))
+                else:
+                    speed_bar.update(len(chunk))
 
 # Funzione principale per scaricare le mod (usata da 'scarica_mod' e 'rip_mod')
 def sc(MODS_DIR, gia_messe=False):
@@ -77,7 +90,10 @@ def sc(MODS_DIR, gia_messe=False):
         files = GET_MANIFEST()
 
     # Inizializza la barra di avanzamento
-    progress = tqdm(total=len(files), desc="Download mod", unit="mod")
+    progress = tqdm(total=len(files), desc="Download mod", unit="mod", position=0)
+    # Barra che mostra i MB scaricati e la velocità (MB/s) in tempo reale
+    speed_bar = tqdm(total=0, unit="B", unit_scale=True, unit_divisor=1024,
+                      desc="Velocità", position=1, leave=False)
 
     # Funzione eseguita da ogni thread per scaricare una singola mod
     def scarica_mod(mod):
@@ -92,9 +108,9 @@ def sc(MODS_DIR, gia_messe=False):
                 durl.append(ottieni_url_progetto(project_id, file_id))
             tqdm.write(f"❌ Link di download non trovato per {nome_file}")
         else:
-            # Scarica il file
+            # Scarica il file mostrando la velocità in tempo reale
             destinazione = os.path.join(MODS_DIR, nome_file)
-            scarica_file(download_url, destinazione)
+            scarica_file(download_url, destinazione, speed_bar, lock)
             tqdm.write(f"✅ Scaricato {nome_file}")
         
         with lock: # Usa il lock per aggiornare la barra di avanzamento
@@ -105,6 +121,7 @@ def sc(MODS_DIR, gia_messe=False):
         executor.map(scarica_mod, files) # 'map' applica 'scarica_mod' a ogni elemento in 'files'
 
     progress.close() # Chiude la barra di avanzamento
+    speed_bar.close() # Chiude la barra di velocità
     return down_error, durl # Ritorna le liste di errori
 
 # Funzione per "riparare": sposta le mod valide dalla cartella corrotta
@@ -214,7 +231,10 @@ def aggiungi_mod(lista, MODS_DIR):
     durl = []
     lock = threading.Lock()
 
-    progress = tqdm(total=len(lista), desc="Download mod", unit="mod")
+    progress = tqdm(total=len(lista), desc="Download mod", unit="mod", position=0)
+    # Barra che mostra i MB scaricati e la velocità (MB/s) in tempo reale
+    speed_bar = tqdm(total=0, unit="B", unit_scale=True, unit_divisor=1024,
+                      desc="Velocità", position=1, leave=False)
 
     # Funzione per il thread (simile a 'scarica_mod' in 'sc')
     def scarica_mod(mod):
@@ -229,9 +249,9 @@ def aggiungi_mod(lista, MODS_DIR):
                 durl.append(ottieni_url_progetto(project_id, file_id))
             tqdm.write(f"❌ Link di download non trovato per {nome_file}")
         else:
-            # Scarica il file
+            # Scarica il file mostrando la velocità in tempo reale
             destinazione = os.path.join(MODS_DIR, nome_file)
-            scarica_file(download_url, destinazione)
+            scarica_file(download_url, destinazione, speed_bar, lock)
             tqdm.write(f"✅ Scaricato {nome_file}")
         
         with lock:
@@ -241,6 +261,7 @@ def aggiungi_mod(lista, MODS_DIR):
         executor.map(scarica_mod, lista)
 
     progress.close()
+    speed_bar.close()
     return down_error, durl # Ritorna solo la lista dei nomi dei file falliti
 
 # Funzione per confrontare due file manifest
