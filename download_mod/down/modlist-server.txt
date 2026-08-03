@@ -24,3 +24,10 @@ tt20-0.8.4+mc1.21.1-neoforge;https://cdn.modrinth.com/data/YS3ZignI/versions/2Rn
 -drippyloadingscreen_neoforge_3.1.2_MC_1.21.1
 -afk-cinematics-1.21.1
 -bobby-5.2.4+mc1.21
+-CrashAssistant-neoforge-1.20.6-1.21.4-1.11.10
+-AmbientSounds_NEOFORGE_v6.3.8_mc1.21.1
+-BetterThirdPerson-neoforge-1.9.0
+-chat_heads-0.15.2-neoforge-1.21
+-FpsReducer2-neoforge-1.21-2.10
+-Searchables-neoforge-1.21.1-1.0.2
+-jei-1.21.1-neoforge-19.27.0.346
