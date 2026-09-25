@@ -78,82 +78,64 @@ try:
         fine() # Chiama la funzione di fine
 
     # Funzione per scaricare e installare "cose" (file di configurazione, ecc.)
-    # 'a' è un booleano: True = aggiornamento (rimuove i vecchi file), False = installazione (non rimuove)
-    def cose(a=False):
-        # Scarica cose.zip
-        response = requests.get(GITHUB+'cose.zip')
-        with open('cose.zip', 'wb') as f:
+    def cose():
+        # 1. Scarica cose.zip
+        response = requests.get(GITHUB + "cose.zip")
+        with open("cose.zip", "wb") as f:
             f.write(response.content)
-        print('\nScaricato cose.zip')
+        print("\nScaricato cose.zip")
 
-        if os.path.exists("cosse/"): os.rmdir("cosse")
-        # Estrae cose.zip in una cartella temporanea 'cosse'
-        with zipfile.ZipFile('cose.zip', 'r') as zip_ref:
-            os.makedirs('cosse/')
-            zip_ref.extractall('cosse/')
-        print('Cose estratte')
+        # Pulizia preliminare della cartella temporanea se esiste già
+        if os.path.exists("cosse"):
+            shutil.rmtree("cosse")
 
-        # Legge il file 'cose.txt' che contiene le istruzioni
-        with open('./cosse/cose.txt', 'r') as file:
+        # 2. Estrae cose.zip in una cartella temporanea 'cosse'
+        with zipfile.ZipFile("cose.zip", "r") as zip_ref:
+            zip_ref.extractall("cosse")
+        print("Cose estratte")
+
+        # 3. Legge il file 'cose.txt' ed effettua la SOSTITUZIONE SEMPRE
+        with open("./cosse/cose.txt", "r") as file:
             for line in file:
                 try:
                     line = line.strip()
                     if not line:
                         continue  # Salta linee vuote
 
-                    dirr = False  # Flag per sapere se è una directory
-                    operation = line[0]  # Legge l'operazione (+ = aggiungi/sostituisci, altro = ?)
-                    name, _ = line.split(';')
-                    if '.' not in name:
-                        dirr = True  # Se non c'è un punto, assume sia una directory
-                    
-                    if operation != '+':
-                        # Logica per operazioni diverse da '+'
-                        if a:  # Se è un aggiornamento (a=True), salta questa operazione
-                            continue
-                        else: # Se è un'installazione (a=False)
-                            name, dire = line.split(';')
-                            dire = MINECRAFT+dire # Costruisce il percorso di destinazione
-                            if dirr:
-                                shutil.move('cosse/'+name, dire) # Sposta la directory
-                            else:
-                                if os.path.exists(dire)==False:
-                                    os.makedirs(dire) # Crea la cartella se non esiste
-                                shutil.move('cosse/'+name, dire+name) # Sposta il file
-                            print('Spostato '+name)
-                    else:
-                        # Logica per operazione '+' (aggiungi/sostituisci)
-                        rest = line[1:]
-                        name, dire = rest.split(';')
-                        dire = MINECRAFT+dire
-                        if a or crack: # Se è un aggiornamento (a=True), prova a rimuovere il vecchio file/dir
-                            try:
-                                if dirr:
-                                    shutil.rmtree(dire)
-                                else:
-                                    os.remove(dire+name)
-                            except:
-                                pass # Ignora errori se il file non esiste
-                        # Sposta il nuovo file/dir
-                        if dirr:
-                            try:
-                                shutil.move('cosse/'+name, dire)
-                            except Exception as e:
-                                print(f"Errore nello spostare la directory {name}: {e}")
+                    name, relative_dir = line.split(";")
+
+                    # Percorso sorgente (estratto) e destinazione (Minecraft)
+                    src_path = os.path.join("cosse", name)
+                    dest_dir = os.path.join(MINECRAFT, relative_dir)
+                    dest_path = os.path.join(dest_dir, name)
+
+                    # --- RIMOZIONE VECCHIO ELEMENTO (Sostituzione) ---
+                    if os.path.exists(dest_path):
+                        if os.path.isdir(dest_path):
+                            shutil.rmtree(dest_path)
                         else:
-                            if os.path.exists(dire)==False:
-                                os.makedirs(dire)
-                            shutil.move('cosse/'+name, dire+name)
-                        print('Spostato '+name)
+                            os.remove(dest_path)
+
+                    # Assicura che la cartella di destinazione esista
+                    os.makedirs(dest_dir, exist_ok=True)
+
+                    # --- SPOSTAMENTO NUOVO ELEMENTO ---
+                    shutil.move(src_path, dest_path)
+                    print(f"Sostituito/Spostato {name} -> {dest_path}")
+
                 except Exception as e:
                     print(f"Errore nell'elaborare la linea '{line}': {e}")
 
-        # Pulizia dei file temporanei
-        os.remove('cose.zip')
-        shutil.rmtree('cosse/')
-        if mod: # Se era un'operazione mod, aggiorna anche il texture pack
+        # 4. Pulizia dei file temporanei
+        if os.path.exists("cose.zip"):
+            os.remove("cose.zip")
+        if os.path.exists("cosse"):
+            shutil.rmtree("cosse")
+
+        # Callback finale
+        if mod:
             tx()
-        else: # Altrimenti, finisci
+        else:
             fine()
 
     def scarica_mod():
@@ -164,7 +146,7 @@ try:
         if crack:
             # Scarica l'installer di Forge
             with open('neoforge.jar', 'wb') as f:
-                response = requests.get('https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.235/neoforge-21.1.235-installer.jar')
+                response = requests.get('https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.250/neoforge-21.1.250-installer.jar')
                 f.write(response.content)
             print('Scaricato neoforge.jar')
 
@@ -272,7 +254,7 @@ try:
         # Chiede se aggiornare anche 'cose'
         cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
         if cos == 's':
-            cose(True) # Chiama 'cose' in modalità aggiornamento
+            cose()
         elif cos == 'n':
             tx() # Altrimenti aggiorna solo il texture pack
 
@@ -327,11 +309,7 @@ try:
             shutil.move('./mods/', MINECRAFT+'mods/')
 
         print('Mod riparate')
-        cos = input('\n\033[92mVuoi reinstallare cose? (s/n) \033[0m')
-        if cos == 's':
-            cose() # Chiama cose in installazione (False)
-        elif cos == 'n':
-            cose(True) # Chiama 'cose' in modalità aggiornamento
+        cose()
 
 # --- Inizio Esecuzione Script ---
     print(USER)
@@ -406,7 +384,7 @@ try:
             print("\033[92mLe mod sono già aggiornate\033[0m")
             cos = input('\n\033[92mVuoi anche aggiornare cose? (s/n) \033[0m')
             if cos == 's':
-                cose(True)
+                cose()
             elif cos == 'n':
                 tx()
         else: # Se i manifest sono diversi, aggiorna
@@ -428,7 +406,7 @@ try:
         tx()
 
     elif cos == 'cose': # COSE
-        cose(True) # Chiama 'cose' in modalità aggiornamento
+        cose()
 
 except SystemExit:
     raise # Permette a sys.exit() di funzionare correttamente
