@@ -7,6 +7,7 @@ import down     # Il tuo modulo personalizzato (down.py) per gestire i download 
 import filecmp  # Per confrontare file (usato per vedere se il manifest è cambiato)
 import json     # Per leggere file JSON (il manifest e differenze.json)
 import webbrowser # Per aprire il browser web (per i download manuali)
+import platform
 
 # Imposta la directory di lavoro corrente alla posizione dello script
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -17,11 +18,14 @@ mod = False  # Flag per sapere se è stata eseguita un'operazione sulle mod (per
 # URL base su GitHub da cui scaricare i file (manifest, zip, ecc.)
 GITHUB = 'https://raw.githubusercontent.com/dj2828/Ultra_Vanilla_2/main/download_mod/down/'
 CUSTOMS_JAR = down.get_custom_jar_list()
+WINDOWS = platform.system() == 'Windows'
+
+def cls(): os.system('cls' if WINDOWS else 'clear')
 
 try:
     # Funzione chiamata alla fine dello script per pulire e uscire
     def fine():
-        os.system('cls')  # Pulisce la console
+        cls()  # Pulisce la console
         try:
             shutil.rmtree('__pycache__/')  # Rimuove la cache di Python
         except:
@@ -186,7 +190,7 @@ try:
             for i in down_error:
                 try:
                     # Sposta il file dalla cartella Downloads dell'utente alla cartella mods
-                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                    shutil.move(os.path.join(os.path.expanduser('~'), 'Downloads', i), MINECRAFT+'mods/')
                 except Exception as e:
                     print(f"Errore nello spostare {i}: {e}") # Stampa un errore se lo spostamento fallisce
 
@@ -259,7 +263,7 @@ try:
             for i in down_error:
                 try:
                     # Sposta il file dalla cartella Downloads dell'utente alla cartella mods
-                    shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                    shutil.move(os.path.join(os.path.expanduser('~'), 'Downloads', i), MINECRAFT+'mods/')
                 except Exception as e:
                     print(f"Errore nello spostare {i}: {e}") # Stampa un errore se lo spostamento fallisce
 
@@ -315,7 +319,7 @@ try:
                 # Tenta di spostare le mod scaricate manualmente dalla cartella Downloads
                 for i in down_error:
                     try:
-                        shutil.move(f"C:\\Users\\{USER}\\Downloads\\{i}", MINECRAFT+'mods/')
+                        shutil.move(os.path.join(os.path.expanduser('~'), 'Downloads', i), MINECRAFT+'mods/')
                     except Exception as e:
                         print(f"Errore nello spostare {i}: {e}")
         else:
@@ -337,11 +341,19 @@ try:
     cos = input('')
     crack = False if cos == '1' else True # Flag per sapere se NON è ATlauncher
     # Percorso dell'istanza di Minecraft
-    MINECRAFT = os.path.join(os.getenv('APPDATA'), 'ATLauncher/instances/Ultravanilla2/' if not crack else '.minecraft/')
+    if WINDOWS:
+        base_dir = os.getenv('APPDATA')
+        atl_path = os.path.join(base_dir, 'ATLauncher/instances/Ultravanilla2/')
+        mc_path = os.path.join(base_dir, '.minecraft/')
+    else:
+        # Linux / macOS
+        atl_path = os.path.expanduser('~/.local/share/atlauncher/instances/Ultravanilla2/')
+        mc_path = os.path.expanduser('~/.minecraft/')
+    MINECRAFT = mc_path if crack else atl_path
 
     print("\nSe devi scaricare le mod scrivi 's'\nSe devi aggiornare scrivi 'a'\nSe devi riparare le mod scrivi 'r'\nSe devi aggiornare la texture pack scrivi 'tx'\nSe devi aggiornare altre cose scrivi 'cose'")
     cos = input('') # Legge la scelta dell'utente
-    os.system('cls') # Pulisce lo schermo
+    cls() # Pulisce lo schermo
     
     if cos == 's': # SCARICA
         
@@ -422,7 +434,7 @@ except SystemExit:
     raise # Permette a sys.exit() di funzionare correttamente
 except Exception as e:
     # Gestione generica degli errori
-    os.system('cls')
+    cls()
     print("\033[91mERRORE\033[0m")
     print('\033[91mChiedi a dj\033[0m')
     input(e) # Mostra l'errore e attende l'input
