@@ -146,7 +146,7 @@ try:
         if crack:
             # Scarica l'installer di Forge
             with open('neoforge.jar', 'wb') as f:
-                response = requests.get('https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.250/neoforge-21.1.250-installer.jar')
+                response = requests.get('https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.252/neoforge-21.1.252-installer.jar')
                 f.write(response.content)
             print('Scaricato neoforge.jar')
 
