@@ -39,6 +39,7 @@ with open('modlist-server.txt', 'r') as file:
                 print(f'Cancellato {line}')
         else:
             nome, modlink = line.split(';')
+            if os.path.exists('./mods/' + nome + '.jar'): continue
             response = requests.get(modlink)
             with open('./mods/' + nome + '.jar', 'wb') as f:
                 f.write(response.content)

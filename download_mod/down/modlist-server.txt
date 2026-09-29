@@ -39,3 +39,4 @@ tt20-0.8.4+mc1.21.1-neoforge;https://cdn.modrinth.com/data/YS3ZignI/versions/2Rn
 -chloride-NEOFORGE-mc1.21.1-v1.8.1
 -continuity-3.0.0+1.21.neoforge
 -Fastquit-3.0.2+1.21neoforge
+-SimpleRPC-4.1.4
